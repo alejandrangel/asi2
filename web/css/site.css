@@ -1,0 +1,75 @@
+.nav-list {
+    padding:0;
+    margin: 0;
+}
+.treeview span.icon{
+
+}
+
+.navbar{
+	background: #1868B3;
+	color:white !important;
+}
+.logo{
+	background: #1868B3;
+	height: 74px;
+	border-bottom:1px solid;
+}
+
+.navbar-brand{
+	text-align: center;	
+}
+.navbar-default .navbar-brand,.navbar-default .navbar-nav > li > a{
+	color: white !important;
+}
+h2,.h2{
+	font-size: 1.4em;
+	margin: 2px;
+	padding: 2px;
+	font-weight: bold;
+}
+.help-block{
+	margin-top: 0;
+	font-size: 12px;
+}
+.form-control{
+	height: 34px;
+}
+.control-label{
+	margin-top: 0;
+}
+.row{
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.main-panel > .content {
+	padding: 0px 15px;
+}
+
+h1, .h1{
+	margin: 15px 0 15px;
+	font-size: 2.8em;
+}
+#equipo-datarow .odd, #equipo-datarow .even{
+	cursor: pointer;
+}
+#equipo-datarow .odd:hover, #equipo-datarow .even:hover{
+
+}
+.btn-info,.btn-info:hover {
+	border-color: #3E899E;
+	color: white;
+	background: #68B3C8;
+}
+.btn-info:hover {
+	background: #539EB3;
+}
+.modal-backdrop{
+	z-index: 0 !important;
+}
+
+
+.select2{
+	width: 100% !important;
+}
