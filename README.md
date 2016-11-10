@@ -18,6 +18,6 @@ Pedro Miguel        Sanchez Diaz            SD100411
 
 Blanca Rosa         Melara Figueroa         MF100114
 
-Edgar René          Pascacio Martínez       PM102512
+~~Edgar René          Pascacio Martínez       PM102512~~
 
 Alejandra Maria     Angel Rodriguez         AR100912
