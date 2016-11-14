@@ -111,7 +111,7 @@ $estaus = array(
                                 }
 				        	],
 				        		[
-				        		'attribute' => 'actividad',
+				        		'attribute' => 'actividad.actividad',
 				        		],
 				            ['class' => 'yii\grid\ActionColumn'],
 				        ],
