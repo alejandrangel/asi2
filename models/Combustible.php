@@ -17,7 +17,7 @@ class Combustible extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'Combustible';
+        return 'combustible';
     }
 
     /**

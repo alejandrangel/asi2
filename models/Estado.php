@@ -19,7 +19,7 @@ class Estado extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'Estado';
+        return 'estado';
     }
 
     /**

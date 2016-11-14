@@ -17,7 +17,7 @@ class Actividad extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'Actividad';
+        return 'actividad';
     }
 
     /**

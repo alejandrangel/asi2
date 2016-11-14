@@ -17,7 +17,7 @@ class Fuente extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'Fuente';
+        return 'fuente';
     }
 
     /**
