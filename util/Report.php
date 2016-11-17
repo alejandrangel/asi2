@@ -15,7 +15,7 @@ class Report
     {
         $header = ' |<h2>'.\Yii::$app->params['empresa'].'<br />
                   '.\Yii::$app->params['sys-name'].'</h2>
-                    '.$title.'|'.\Yii::$app->user->identity->nombre.' <br/>'.date("d-m-Y").'<br />'.date("g:i a");
+                    '.$title.'|'.@(\Yii::$app->user->identity->nombre).' <br/>'.date("d-m-Y").'<br />'.date("g:i a");
         $mpdf = new \mPDF();
         $mpdf->SetWatermarkImage(\Yii::$app->params['logo-report'], 1, '', array(13,5));
         $mpdf->showWatermarkImage = true;
