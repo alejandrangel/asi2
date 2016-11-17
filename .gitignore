@@ -14,7 +14,7 @@ Thumbs.db
 
 # composer vendor dir
 /vendor
-#/config
+/config
 # composer itself is not needed
 composer.phar
 
@@ -25,4 +25,4 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
-#views/layouts/main.php
+views/layouts/main.php
