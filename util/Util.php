@@ -31,4 +31,5 @@ class Util
         $rows = $query->all();
         return count($rows);
     }
+
 }

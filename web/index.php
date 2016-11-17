@@ -11,6 +11,7 @@ require(__DIR__ . '/../util/Session.php');
 require(__DIR__ . '/../util/MenuMaker.php');
 require(__DIR__ . '/../util/Acf.php');
 require(__DIR__ . '/../util/Util.php');
+require(__DIR__ . '/../util/Report.php');
 require(__DIR__ . '/../util/CustomDialog.php');
 
 $config = require(__DIR__ . '/../config/web.php');

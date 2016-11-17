@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use util\Report;
 use Yii;
 use app\models\Color;
 use app\models\ColorSearch;
@@ -121,5 +122,26 @@ class ColorController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionReport(){
+        $style = ".box{border-bottom:1px solid gray;border-top:1px solid gray;}";
+        $style .= ".odd{background:#FEFEED}";
+        $style .= ".edd{background:#FAFFFF}";
+        $content = '<table width="100%" class="content" cellpadding="0" cellspacing="0">
+                        <thead>
+                                <tr>
+                                    <td class="box">Código</td>
+                                    <td class="box">Color</td>
+                                 </tr>
+                        </thead>
+                        <tbody>';
+        $colores = Color::find()->all();
+        foreach ($colores as $color){
+            $content.='<tr class="'.(($color->id_color%2==0)?'odd':'edd').'"><td>'.$color->id_color.'</td>';
+            $content.='<td>'.$color->color.'</td></tr>';
+        }
+        $content .= '</tbody></table>';
+        Report::PDF($style,'Reporte de Colores',$content);
     }
 }
