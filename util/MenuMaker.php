@@ -10,6 +10,11 @@ class MenuMaker{
 
 
 	 public static function make($userId = null){
+
+	     $nodes = @Yii::$app->session->get('menu');
+	     if(!is_null($nodes)){
+	         return $nodes;
+         }
          $nodes = array();
          $rows  = MenuMaker::getMenus($userId,null);
          foreach ($rows as $row) {
@@ -22,6 +27,7 @@ class MenuMaker{
 
              ));
          }
+         Yii::$app->session->set('menu',$nodes);
          return $nodes;
 	 }
 
