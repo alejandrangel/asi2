@@ -68,8 +68,9 @@ h1, .h1{
 .modal-backdrop{
 	z-index: 0 !important;
 }
-
-
 .select2{
 	width: 100% !important;
+}
+.sidebar .nav li > a, .off-canvas-sidebar .nav li > a{
+	padding: 0 !important;
 }
