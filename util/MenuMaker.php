@@ -23,6 +23,7 @@ class MenuMaker{
                  'text'  => $row['label'],
                  'icon'  => $row['icon'],
                  'href'  => Yii::$app->request->baseUrl.$row['url'],
+                 'state' => array('expanded'=>false),
                  'nodes' => MenuMaker::children($userId,$row['id_menu']),
 
              ));
@@ -43,8 +44,8 @@ class MenuMaker{
                     'icon'  => $row['icon'],
                     'text'  => $row['label'],
                     'href'  => Yii::$app->request->baseUrl.$row['url'],
+                    'state' => array('expanded'=>false),
                     'nodes' => MenuMaker::children($userId,$row['id_menu']),
-
                 ));
             }
         return $nodes;
