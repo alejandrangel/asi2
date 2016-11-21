@@ -13,10 +13,10 @@ class MenuMaker{
          $nodes = array();
          $rows  = MenuMaker::getMenus($userId,null);
          foreach ($rows as $row) {
-             $icon = MenuMaker::$array[rand(0,350)];
+             //$icon = MenuMaker::$array[rand(0,350)];
              array_push($nodes,array(
                  'text'  => $row['label'],
-                 'icon'  => $icon,
+                 'icon'  => $row['icon'],
                  'href'  => Yii::$app->request->baseUrl.$row['url'],
                  'nodes' => MenuMaker::children($userId,$row['id_menu']),
 
@@ -31,10 +31,10 @@ class MenuMaker{
         $nodes = array();
         $rows = MenuMaker::getMenus($userId,$id);
             foreach ($rows as $row){
-                $icon = MenuMaker::$array[rand(0,350)];
+               // $icon = MenuMaker::$array[rand(0,350)];
                 array_push(
                     $nodes,array(
-                    'icon'  => $icon,
+                    'icon'  => $row['icon'],
                     'text'  => $row['label'],
                     'href'  => Yii::$app->request->baseUrl.$row['url'],
                     'nodes' => MenuMaker::children($userId,$row['id_menu']),
