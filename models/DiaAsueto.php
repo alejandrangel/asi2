@@ -9,9 +9,6 @@ use Yii;
  *
  * @property integer $id_dia_asueto
  * @property string $fecha
- * @property integer $plan
- *
- * @property Plan $plan0
  */
 class DiaAsueto extends \yii\db\ActiveRecord
 {
@@ -29,10 +26,8 @@ class DiaAsueto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_dia_asueto'], 'required'],
-            [['id_dia_asueto', 'plan'], 'integer'],
+            [['fecha'], 'required'],
             [['fecha'], 'safe'],
-            [['plan'], 'exist', 'skipOnError' => true, 'targetClass' => Plan::className(), 'targetAttribute' => ['plan' => 'id_plan']],
         ];
     }
 
@@ -44,15 +39,6 @@ class DiaAsueto extends \yii\db\ActiveRecord
         return [
             'id_dia_asueto' => 'Id Dia Asueto',
             'fecha' => 'Fecha',
-            'plan' => 'Plan',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPlan0()
-    {
-        return $this->hasOne(Plan::className(), ['id_plan' => 'plan']);
     }
 }

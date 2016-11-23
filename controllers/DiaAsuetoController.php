@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use util\Util;
 use Yii;
 use app\models\DiaAsueto;
 use app\models\DiaAsuetoSearch;
@@ -9,6 +10,7 @@ use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
 
 /**
  * DiaAsuetoController implements the CRUD actions for DiaAsueto model.
@@ -41,24 +43,23 @@ class DiaAsuetoController extends Controller
 
 
     public function actionLoadEvents(){
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $ini = \Yii::$app->request->get('start');
         $fin = \Yii::$app->request->get('end');
-
 
         $query = new Query();
         $events = $query->select([
             'id'=>'dia_asueto.id_dia_asueto',
             'title'=>'date_format(dia_asueto.fecha,\'%d/%m/%Y\')',
             'start'=>'dia_asueto.fecha',
-            'end'=>'dia_asueto.fecha'
+            'end'=>'dia_asueto.fecha',
+            'allDay' => 'dia_asueto.activo'
         ])  ->from('dia_asueto')
             ->where(['between', 'fecha', $ini, $fin])
             ->andWhere(['activo'=> 1])
             ->all();
-
         echo json_encode($events);
-
-
     }
 
 
@@ -84,6 +85,7 @@ class DiaAsuetoController extends Controller
         $model = new DiaAsueto();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->fecha = Util::dateFormat($model->fecha);
             return $this->redirect(['view', 'id' => $model->id_dia_asueto]);
         } else {
             return $this->render('create', [
@@ -139,4 +141,31 @@ class DiaAsuetoController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+
+    public function actionDeleteEvent(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $id = yii::$app->request->post('id');
+        echo json_encode(array('success'=>$this->findModel($id)->delete()));
+    }
+
+    public function actionValidator(){
+        $model = new DiaAsueto();
+        if($model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            $model->fecha = Util::dateFormat($model->fecha);
+            return ActiveForm::validate($model);
+        }
+    }
+
+    public function actionCreateEvent(){
+        $model = new DiaAsueto();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->fecha = Util::dateFormat($model->fecha);
+            Yii::$app->response->format = 'json';
+            echo json_encode(array('success'=>$model->save()));
+        }
+    }
 }
+
