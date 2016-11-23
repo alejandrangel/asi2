@@ -23,6 +23,7 @@ class CssAsset extends AssetBundle
         '//fonts.googleapis.com/css?family=Muli:400,300',
         'css/themify-icons.css',
         'css/datepicker.css',
+        'css/dataTables.bootstrap.min.css'
     ];
     public $js = [];
 }

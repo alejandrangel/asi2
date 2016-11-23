@@ -9,6 +9,8 @@
 namespace app\assets;
 
 
+use fedemotta\datatables\DataTables;
+use fedemotta\datatables\DataTablesAsset;
 use yii\web\AssetBundle;
 
 class JsAsset extends AssetBundle
@@ -25,8 +27,9 @@ class JsAsset extends AssetBundle
         '//maps.googleapis.com/maps/api/js?key=AIzaSyDVWdEiucbG2ij5EFbtsWPCGIqhgLr_ETg',
         'js/paper-dashboard.js',
         'js/demo.js',
+        'js/dataTables.bootstrap.js'
     ];
     public $depends = [
-        'fedemotta\datatables\DataTablesAsset',
+        'fedemotta\datatables\DataTablesAsset'
     ];
 }
