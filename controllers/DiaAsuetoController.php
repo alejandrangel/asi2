@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\DiaAsueto;
 use app\models\DiaAsuetoSearch;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,14 +36,31 @@ class DiaAsuetoController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DiaAsuetoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index');
     }
+
+
+    public function actionLoadEvents(){
+        $ini = \Yii::$app->request->get('start');
+        $fin = \Yii::$app->request->get('end');
+
+
+        $query = new Query();
+        $events = $query->select([
+            'id'=>'dia_asueto.id_dia_asueto',
+            'title'=>'date_format(dia_asueto.fecha,\'%d/%m/%Y\')',
+            'start'=>'dia_asueto.fecha',
+            'end'=>'dia_asueto.fecha'
+        ])  ->from('dia_asueto')
+            ->where(['between', 'fecha', $ini, $fin])
+            ->andWhere(['activo'=> 1])
+            ->all();
+
+        echo json_encode($events);
+
+
+    }
+
 
     /**
      * Displays a single DiaAsueto model.
