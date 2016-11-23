@@ -19,7 +19,7 @@ class Util
             return $date;
         }
         $time = strtotime($date);
-        $date = date('Y-m-d',$time);
+        $date = date('Y-d-m',$time);
         return $date;
     }
 
