@@ -64,42 +64,40 @@ $estaus = array(
 		        [
 		            'label' => Yii::t('app','Activities'),
 		            'content' =>
-		        		'<BR />'.
-
+		        		'<BR />' .
 		        		CustomDialog::widget(['options'=>[
 		        				'id'=>'newAct',
 		        		],
 		        				'header' => '<h2>'.Yii::t('app','New Activity').'</h2>',
 		        				'toggleButton' => ['label' => Yii::t('app','New Activity') ,'class'=>'btn btn-success'],
-		        				'content'=> 
+		        				'content'=>
 				        				$this->render('../actividad-planificada/create',['model'=>$newact, 'id_plan'=>$model->id_plan])
-		        		])
-
-                        . Html::button('Volver', array(
+		        		]) .
+                        Html::button('Volver', array(
                                 'name' => 'btnBack',
                                 'class' => 'btn btn-success',
                                 'style' => 'width:75px; margin-left: 1000px; margin-top: -60px;',
                                 'onclick' => "window.location = 'index'",
                             )
-                        )
-
-		        		.'<BR /> <BR />'
-                        .GridView::widget([
+                        ) .
+		        		'<BR /> <BR />' .
+                        GridView::widget([
 				        'dataProvider' => $actividades,
 				        'columns' => [
 				            ['class' => 'yii\grid\SerialColumn'],
-				
-				               [
-				                    'attribute' => 'fecha_inicio',
-				                    'format' => ['date', 'php:d/m/Y'],
-				               		'label'=>'Fecha Inicial',
-				               ]
-				            ,
+
+				            [
+				                'attribute' => 'fecha_inicio',
+				                'format' => ['date', 'php:d/m/Y'],
+				               	'label'=>'Fecha Inicial',
+				            ],
+
 				            [
 				                'attribute' => 'fecha_final',
 				                'format' => ['date', 'php:d/m/Y'],
                                 'label'=>'Fecha Final',
 				            ],
+
 				        	[
 				        		'attribute' => 'tipo',
                                 'value' => function ($model){
@@ -110,41 +108,16 @@ $estaus = array(
                                     return $tA[$model->tipo];
                                 }
 				        	],
-				        		[
+
+				        	[
 				        		'attribute' => 'actividad.actividad',
-				        		],
+				        	],
+
 				            ['class' => 'yii\grid\ActionColumn'],
 				        ],
 				    ]),
 		            'active' => true,
-		        ]/*,
-		        [
-		        		'label' => Yii::t('app','Team'),
-		        		'content' => '<BR />'.Html::a('Crear Equipo', ['equipo/create'], ['class' => 'btn btn-success']).'<BR /><BR />'. GridView::widget([
-				        'dataProvider' => $equipo,
-				        'columns' => [
-				            ['class' => 'yii\grid\SerialColumn'],
-				
-				               [
-				                    'attribute' => 'descripcion',
-				               		'label'=>'Descripción',
-				               ]
-				            ,
-				            [
-				                'attribute' => 'estado',
-				            	'label'=>'estado',
-				            ],
-							['class' => 'yii\grid\ActionColumn',
-								'template' => '{view}{update}{delete}',
-								'buttons' => [
-									'view' => function ($url, $model) {
-										return Html::a('<span class="glyphicon glyphicon-eye-open"></span>','@web/equipo/view?id='.$model->id_equipo);
-									}
-								],
-							],
-				        ],
-				    ])
-		        ]*/
+		        ]
 			],
 	]);
 ?>

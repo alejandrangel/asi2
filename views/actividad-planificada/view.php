@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dias',
             'id_plan',
             'id_ruta',
-            'actividad',
+            'id_actividad',
         ],
     ]) ?>
 

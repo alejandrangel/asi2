@@ -15,7 +15,7 @@ use Yii;
  * @property string $dias
  * @property integer $id_plan
  * @property integer $id_ruta
- * @property integer $id_actividad
+ * @property integer $actividad
  *
  * @property Ruta $idRuta
  * @property Actividad $actividad0

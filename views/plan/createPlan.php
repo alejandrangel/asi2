@@ -6,7 +6,7 @@
 <div class="plan-create">
     <?= $this->render('_formNewPlan', [
         'model' => $model,
-    	'action'=> 'create',
+    	'action'=> '@web/plan/create',
     ]) ?>
 
 </div>

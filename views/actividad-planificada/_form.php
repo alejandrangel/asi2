@@ -66,6 +66,7 @@ $this->registerJs("
             <?= "<B>Dias:</B>"?>
         </div>
     </div>
+
     <div class="row periodo hide">
         <div class="col-md-3">
             <?= $form->field($model, 'lu')->checkbox(['label'=>'Lunes'])?>
@@ -80,6 +81,7 @@ $this->registerJs("
             <?= $form->field($model, 'ju')->checkbox(['label'=>'Jueves']) ?>
         </div>
     </div>
+
     <div class="row periodo hide">
         <div class="col-md-3">
             <?= $form->field($model, 'vi')->checkbox(['label'=>'Viernes']) ?>
@@ -94,22 +96,26 @@ $this->registerJs("
             <?= $form->field($model, 'to')->checkbox(['label'=>'Todos']) ?>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <?= $form->field($model, 'id_plan')->textInput(["value"=>$id_plan, "readonly"=>"readonly"]) ?>
         </div>
     </div>
 
-
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model, 'id_ruta')->textInput() ?>
+            <?= $form->field($model, 'id_ruta')->widget(\conquer\select2\Select2Widget::className(),
+                                                            ['ajax' => ['ruta/rutasList']]) ?>
+
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model, 'actividad')->textInput() ?>
+            <?= $form->field($model, 'id_actividad')->widget(\conquer\select2\Select2Widget::className(),
+                                                            ['ajax' => ['actividad/actividadesList']]) ?>
+
         </div>
     </div>
 
