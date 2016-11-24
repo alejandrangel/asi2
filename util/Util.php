@@ -13,14 +13,14 @@ use yii\db\Query;
 
 class Util
 {
+    static $fecha_;
     static function dateFormat($date){
 
         if(empty($date)){
             return $date;
         }
-        $time = strtotime($date);
-        $date = date('Y-d-m',$time);
-        return $date;
+        $formateador = \DateTime::createFromFormat('d/m/Y',$date);
+        return $formateador->format('Y-m-d');
     }
 
     public static function countSolicitud(){

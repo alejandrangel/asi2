@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use util\Util;
 use Yii;
 use app\models\Plan;
 use app\models\ActividadPlanificada;
@@ -50,14 +51,13 @@ class PlanController extends Controller
     {
         $model = new Plan();
         $model->estado = 'R';
-        //var_dump(Yii::$app->request->post());
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            return $this->redirect(['view', 'id' => $model->id_plan]);
-
+        if ($model->load(Yii::$app->request->post())) {
+            $model->fecha_final = Util::dateFormat($model->fecha_final);
+            $model->fecha_inicia = Util::dateFormat($model->fecha_inicia);
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id_plan]);
+            }
         } else {
-
             return $this->render('createPlan', [
                 'model' => $model,
             ]);
