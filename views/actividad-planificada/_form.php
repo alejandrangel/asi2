@@ -8,21 +8,35 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 
 $this->registerJs("
-		
-		function showhidecontrols(){
-        
-		var tipo = $('#actividadplanificada-tipo').val();
-			switch(tipo){
-				case 'U':{
-					$('.periodo').hide();
-					break;
-				}
-				case 'P':{
-					$('.periodo').show().removeClass('hide');;
-					break;
-				}
-			}
-} showhidecontrols();", yii\web\View::POS_END);
+
+        function showPeriodicidad(){
+
+        var tipo = $('#actividadplanificada-tipo').val();
+            switch(tipo){
+                case 'U':{
+                    $('.periodo').hide();
+                    $('.dias').hide();
+                    break;
+                }
+                case 'P':{
+                    $('.periodo').show().removeClass('hide');;
+                    break;
+                }
+            }
+} showPeriodicidad();", yii\web\View::POS_END);
+
+$this->registerJs("
+
+    function showDias(){
+
+       var tipo = $('#actividadplanificada-periodicidad').val();
+
+       if(tipo == 'D'){
+            $('.dias').show().removeClass('hide');
+       } else {
+            $('.dias').hide();
+       }
+    } showDias(); ", yii\web\View::POS_END);
 
 ?>
 
@@ -39,7 +53,7 @@ $this->registerJs("
 
         </div>
         <div class="col-md-5">
-            <?= $form->field($model, 'tipo')->dropDownList([ 'U' => 'Actividad Unica', 'P' => 'Actividad Periodica',], ['prompt' => 'Seleccione','onchange'=>'showhidecontrols()']) ?>
+            <?= $form->field($model, 'tipo')->dropDownList([ 'U' => 'Actividad Unica', 'P' => 'Actividad Periodica',], ['prompt' => 'Seleccione','onchange'=>'showPeriodicidad()']) ?>
         </div>
     </div>
 
@@ -57,17 +71,17 @@ $this->registerJs("
 
     <div class="row periodo hide">
         <div class="col-md-12">
-            <?= $form->field($model, 'periodicidad')->dropDownList(['D'=>'Diario', 'S'=>'Semanal', 'Q'=>'Quincenal', 'M'=>'Mensual', 'TRI'=>'Trimestral', 'SEM'=>'Semestral']) ?>
+            <?= $form->field($model, 'periodicidad')->dropDownList(['D'=>'Diario', 'S'=>'Semanal', 'Q'=>'Quincenal', 'M'=>'Mensual', 'TRI'=>'Trimestral', 'SEM'=>'Semestral'], ['prompt'=>'Seleccione', 'onchange'=>'showDias()']) ?>
         </div>
     </div>
 
-     <div class="row periodo hide">
+     <div class="row hide dias">
         <div class="col-md-3">
             <?= "<B>Dias:</B>"?>
         </div>
     </div>
 
-    <div class="row periodo hide">
+    <div class="row hide dias">
         <div class="col-md-3">
             <?= $form->field($model, 'lu')->checkbox(['label'=>'Lunes'])?>
         </div>
@@ -82,7 +96,7 @@ $this->registerJs("
         </div>
     </div>
 
-    <div class="row periodo hide">
+    <div class="row hide dias">
         <div class="col-md-3">
             <?= $form->field($model, 'vi')->checkbox(['label'=>'Viernes']) ?>
         </div>

@@ -123,7 +123,7 @@ class PlanController extends Controller
     	$model = $this->findModel($id);
     	return $this->renderAjax('_formNewPlan', [
     			'model' => $model,
-    			'action'=> 'plan/update?id='.$id
+    			'action'=> 'update?id='.$id
     	]);
     }
 

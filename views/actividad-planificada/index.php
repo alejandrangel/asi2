@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Actividad Planificadas';
+$this->title = 'Actividades Planificadas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="actividad-planificada-index">

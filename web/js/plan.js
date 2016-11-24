@@ -6,11 +6,11 @@
 
 function edit(key){
 
-	$('#updateContent').load('plan/render-form?id='+key);
+	$('#updateContent').load('render-form?id='+key);
 	$("#modaledit").modal();
 	$.ajax({
 	    type     :'GET',
-	    url  	 : 'plan/load',
+	    url  	 : 'load',
 	    data:{
 	    		id:key 
 	    },
