@@ -55,73 +55,77 @@ $estaus = array(
         </div>
     </div>
 
-<?php 
-
-	
+<?php
 	$this->registerJs("$('.modal-backdrop').removeClass('modal-backdrop');", View::POS_END);
-	echo  yii\bootstrap\Tabs::widget([
-    'items' => [
-		        [
-		            'label' => Yii::t('app','Activities'),
-		            'content' =>
-		        		'<BR />' .
-		        		CustomDialog::widget(['options'=>[
-		        				'id'=>'newAct',
-		        		],
-		        				'header' => '<h2>'.Yii::t('app','New Activity').'</h2>',
-		        				'toggleButton' => ['label' => Yii::t('app','New Activity') ,'class'=>'btn btn-success'],
-		        				'content'=>
-				        				$this->render('../actividad-planificada/create',['model'=>$newact, 'id_plan'=>$model->id_plan])
-		        		]) .
-                        Html::button('Volver', array(
-                                'name' => 'btnBack',
-                                'class' => 'btn btn-success',
-                                'style' => 'width:75px; margin-left: 1000px; margin-top: -60px;',
-                                'onclick' => "window.location = 'index'",
-                            )
-                        ) .
-		        		'<BR /> <BR />' .
-                        GridView::widget([
-				        'dataProvider' => $actividades,
-				        'columns' => [
-				            ['class' => 'yii\grid\SerialColumn'],
-
-				            [
-				                'attribute' => 'fecha_inicio',
-				                'format' => ['date', 'php:d/m/Y'],
-				               	'label'=>'Fecha Inicial',
-				            ],
-
-				            [
-				                'attribute' => 'fecha_final',
-				                'format' => ['date', 'php:d/m/Y'],
-                                'label'=>'Fecha Final',
-				            ],
-
-				        	[
-				        		'attribute' => 'tipo',
-                                'value' => function ($model){
-                                    $tA = array(
-                                        "U" => "Unica",
-                                        "P" => "Periodica"
-                                    );
-                                    return $tA[$model->tipo];
-                                }
-				        	],
-
-				        	[
-				        		'attribute' => 'actividad.actividad',
-				        	],
-
-				            ['class' => 'yii\grid\ActionColumn'],
-				        ],
-				    ]),
-		            'active' => true,
-		        ]
-			],
-	]);
 ?>
 
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#Actividades">Actividades</a></li>
+	</ul>
+	<div>
+		<div class="tab-content">
+			<div id="Actividades" class="tab-pane  active">
+				<div class="row">
+					<div class="col-md-8">
+						<br />
+						<?php
+							\yii\bootstrap\Modal::begin(
+								[
+									'header' => '<h2>'.Yii::t('app','New Activity').'</h2>',
+									'toggleButton' => ['label' => Yii::t('app','New Activity') ,'class'=>'btn btn-success']
+								]
+							);
+							echo $this->render('../actividad-planificada/create',['model'=>$newact, 'id_plan'=>$model->id_plan]);
+							\yii\bootstrap\Modal::end();
+						?>
+						<br />
+					</div>
+					<div class="col-md-2">
+						<br />
+						<?= \yii\helpers\Html::a('Volver', Yii::$app->request->referrer,['class'=>'btn btn-success']) ?>
+						<br />
+					</div>
+				</div>
+				<div class="row">
+						<?php
+						echo GridView::widget([
+							'dataProvider' => $actividades,
+							'columns' => [
+								['class' => 'yii\grid\SerialColumn'],
 
+								[
+									'attribute' => 'fecha_inicio',
+									'format' => ['date', 'php:d/m/Y'],
+									'label'=>'Fecha Inicial',
+								],
 
+								[
+									'attribute' => 'fecha_final',
+									'format' => ['date', 'php:d/m/Y'],
+									'label'=>'Fecha Final',
+								],
+
+								[
+									'attribute' => 'tipo',
+									'value' => function ($model){
+										$tA = array(
+											"U" => "Unica",
+											"P" => "Periodica"
+										);
+										return $tA[$model->tipo];
+									}
+								],
+
+								[
+									'attribute' => 'actividad.actividad',
+								],
+
+								['class' => 'yii\grid\ActionColumn'],
+							],
+						]);
+						?>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
