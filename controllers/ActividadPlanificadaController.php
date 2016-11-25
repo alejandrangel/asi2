@@ -74,9 +74,11 @@ class ActividadPlanificadaController extends Controller
             return ActiveForm::validate($model);
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save() && (!Yii::$app->request->isAjax)) {
+        if ($model->load(Yii::$app->request->post()) && (!Yii::$app->request->isAjax)) {
             $this->before($model);
-            return $this->redirect(array('plan/view?id='.$model->id_plan."#w3-tab0"));
+            if($model->save()){
+                return $this->redirect(array('plan/view?id='.$model->id_plan."#w3-tab0"));
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -93,10 +95,11 @@ class ActividadPlanificadaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             $this->before($model);
-            return $this->redirect(['view', 'id' => $model->id_actividad_planificacion]);
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id_actividad_planificacion]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
