@@ -11,11 +11,9 @@ use Yii;
  * @property string $descripcion
  * @property string $estado
  * @property string $fecha_creacion
- * @property integer $id_plan
  *
  * @property AutomorEquipo[] $automorEquipos
  * @property Automotor[] $idAutomors
- * @property Plan $idPlan
  * @property OrdenTrabajo[] $ordenTrabajos
  * @property Personal[] $personals
  * @property Empleado[] $idEmpleados
@@ -36,12 +34,10 @@ class Equipo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['descripcion', 'id_plan'], 'required'],
+            [['descripcion'], 'required'],
             [['estado'], 'string'],
             [['fecha_creacion'], 'safe'],
-            [['id_plan'], 'integer'],
             [['descripcion'], 'string', 'max' => 150],
-            [['id_plan'], 'exist', 'skipOnError' => true, 'targetClass' => Plan::className(), 'targetAttribute' => ['id_plan' => 'id_plan']],
         ];
     }
 
@@ -55,7 +51,6 @@ class Equipo extends \yii\db\ActiveRecord
             'descripcion' => 'Descripcion',
             'estado' => 'Estado',
             'fecha_creacion' => 'Fecha Creacion',
-            'id_plan' => 'Id Plan',
         ];
     }
 
@@ -75,13 +70,6 @@ class Equipo extends \yii\db\ActiveRecord
         return $this->hasMany(Automotor::className(), ['id_automotor' => 'id_automor'])->viaTable('automor_equipo', ['id_equipo' => 'id_equipo']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdPlan()
-    {
-        return $this->hasOne(Plan::className(), ['id_plan' => 'id_plan']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery
