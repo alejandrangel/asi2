@@ -28,8 +28,6 @@ class Tipo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_tipo'], 'required'],
-            [['id_tipo'], 'integer'],
             [['tipo'], 'string', 'max' => 45],
         ];
     }

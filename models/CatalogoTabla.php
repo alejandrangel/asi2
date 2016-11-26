@@ -28,8 +28,6 @@ class CatalogoTabla extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_catalogo_tabla'], 'required'],
-            [['id_catalogo_tabla'], 'integer'],
             [['nombre'], 'string', 'max' => 45],
         ];
     }

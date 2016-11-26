@@ -64,5 +64,6 @@ class Colonia extends \yii\db\ActiveRecord
     public function getRutaColonias()
     {
         return $this->hasMany(RutaColonia::className(), ['id_colonia' => 'id_colonia']);
-    }
+    }	
+	
 }

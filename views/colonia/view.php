@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Distrito;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Colonia */
@@ -16,13 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id_colonia], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_colonia], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
     </p>
 
     <?= DetailView::widget([
@@ -30,7 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id_colonia',
             'nombre',
-            'id_distrito',
+            [
+                'attribute'=>'id_distrito',
+                'value'=>Distrito::findOne($model->id_distrito)->nombre
+            ],
         ],
     ]) ?>
 

@@ -27,7 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_tipo',
             'tipo',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' =>'{view}{update}{web}',
+				'buttons' =>[ function ($url,$model,$key){
+					return $model->web != ''? Html::a(
+					'<span class="glyphicon glyphicon-globe"</span>',
+					$model->web) : '';
+					},
+				],
+			],
         ],
     ]); ?>
 </div>
