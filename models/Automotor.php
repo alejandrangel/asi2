@@ -19,15 +19,16 @@ use Yii;
  * @property string $numero_motor
  * @property integer $combustible
  *
- * @property AutomorEquipo[] $automorEquipos
- * @property Equipo[] $equipos
  * @property Color $color0
  * @property Combustible $combustible0
  * @property Estado $estado0
  * @property Modelo $modelo0
  * @property Tipo $tipo0
  * @property AutomotorHistorial[] $automotorHistorials
+ * @property EquipoAutomotor[] $equipoAutomotors
+ * @property Equipo[] $idEquipos
  * @property OrdenAutomotor[] $ordenAutomotors
+ * @property OrdenTrabajo[] $idOrdens
  */
 class Automotor extends \yii\db\ActiveRecord
 {
@@ -45,9 +46,10 @@ class Automotor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_automotor'], 'required'],
-            [['id_automotor', 'modelo', 'anio', 'tipo', 'estado', 'color', 'combustible'], 'integer'],
+            [['modelo', 'anio', 'tipo', 'estado', 'color', 'combustible'], 'integer'],
             [['placa', 'capacidad', 'chasis', 'numero_motor'], 'string', 'max' => 45],
+            [['placa'], 'unique'],
+            [['placa'], 'unique'],
             [['color'], 'exist', 'skipOnError' => true, 'targetClass' => Color::className(), 'targetAttribute' => ['color' => 'id_color']],
             [['combustible'], 'exist', 'skipOnError' => true, 'targetClass' => Combustible::className(), 'targetAttribute' => ['combustible' => 'id_combustible']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estado::className(), 'targetAttribute' => ['estado' => 'id_estado']],
@@ -74,22 +76,6 @@ class Automotor extends \yii\db\ActiveRecord
             'numero_motor' => 'Numero Motor',
             'combustible' => 'Combustible',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAutomorEquipos()
-    {
-        return $this->hasMany(AutomorEquipo::className(), ['id_automor' => 'id_automotor']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEquipos()
-    {
-        return $this->hasMany(Equipo::className(), ['id_equipo' => 'id_equipo'])->viaTable('automor_equipo', ['id_automor' => 'id_automotor']);
     }
 
     /**
@@ -143,8 +129,32 @@ class Automotor extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getEquipoAutomotors()
+    {
+        return $this->hasMany(EquipoAutomotor::className(), ['id_automor' => 'id_automotor']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdEquipos()
+    {
+        return $this->hasMany(Equipo::className(), ['id_equipo' => 'id_equipo'])->viaTable('equipo_automotor', ['id_automor' => 'id_automotor']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getOrdenAutomotors()
     {
         return $this->hasMany(OrdenAutomotor::className(), ['id_automotor' => 'id_automotor']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdOrdens()
+    {
+        return $this->hasMany(OrdenTrabajo::className(), ['id_orden_trabajo' => 'id_orden'])->viaTable('orden_automotor', ['id_automotor' => 'id_automotor']);
     }
 }

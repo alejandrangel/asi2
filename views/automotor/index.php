@@ -2,23 +2,23 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Modelo;
 use yii\helpers\ArrayHelper;
-use app\models\CatalogoTabla;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\EstadoSearch */
+/* @var $searchModel app\models\AutomotorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Estados';
+$this->title = 'Automotors';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="estado-index">
+<div class="automotor-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Estado', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Automotor', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,18 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_estado',
-            'estado',
-            'descripcion',
-            //'id_tabla',
+            'id_automotor',
+            'placa',
+            //'modelo',
 			[
-                'attribute'=>'id_tabla',
+                'attribute'=>'modelo',
                 'value'=> function($model){
-                    $estado = CatalogoTabla::findOne($model->id_tabla);
-                    return $estado->nombre;
+                    $estado = Modelo::findOne($model->modelo);
+                    return $estado->modelo;
                 },
-                'filter'=>ArrayHelper::map(CatalogoTabla::find()->all(),'id_catalogo_tabla','nombre'),
+                'filter'=>ArrayHelper::map(Modelo::find()->all(),'id_modelo','modelo'),
             ],
+            'anio',
+            'capacidad',
+            // 'tipo',
+            // 'estado',
+            // 'chasis',
+            // 'color',
+            // 'numero_motor',
+            // 'combustible',
 
             //['class' => 'yii\grid\ActionColumn'],
 			[
