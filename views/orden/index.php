@@ -14,7 +14,7 @@ $this->title = 'Orden Trabajos';
 <?php
 $this->registerJs("
            var eDtb = $('#ordenes-datarow').DataTable( {
-                \"ordering\": false,
+             
                 \"ajax\":\"".\yii\helpers\Url::base() ."/orden/list-all\",
                 \"columns\":[
                     { \"data\": \"id\"   },
@@ -54,7 +54,7 @@ $this->registerJs("
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-    <table class="table table-striped table-bordered dataTable" id="ordenes-datarow" style="width: 100%">
+    <table class="table" id="ordenes-datarow" style="width: 100%">
         <thead>
         <tr>
             <td width="10%">Código</td>
