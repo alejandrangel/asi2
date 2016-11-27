@@ -9,7 +9,7 @@
 
     <?= $this->render('_formNewPlan', [
         'model' => $model,
-    	'action'=> 'update?id='.Yii::app()->request->getQuery('id')
+    	'action'=> '@web/plan/update?id='.Yii::app()->request->getQuery('id')
     ]) ?>
 
 </div>

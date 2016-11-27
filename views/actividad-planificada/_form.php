@@ -53,7 +53,7 @@ $this->registerJs("
 
         </div>
         <div class="col-md-5">
-            <?= $form->field($model, 'tipo')->dropDownList([ 'U' => 'Actividad Unica', 'P' => 'Actividad Periodica',], ['prompt' => 'Seleccione','onchange'=>'showPeriodicidad()']) ?>
+            <?= $form->field($model, 'tipo')->dropDownList([ 'U' => 'Actividad Unica', 'P' => 'Actividad Periodica',], ['prompt' => 'Seleccione','onchange'=>'showPeriodicidad()'], ['class'=>['form-control']]) ?>
         </div>
     </div>
 
@@ -71,7 +71,7 @@ $this->registerJs("
 
     <div class="row periodo hide">
         <div class="col-md-12">
-            <?= $form->field($model, 'periodicidad')->dropDownList(['D'=>'Diario', 'S'=>'Semanal', 'Q'=>'Quincenal', 'M'=>'Mensual', 'TRI'=>'Trimestral', 'SEM'=>'Semestral'], ['prompt'=>'Seleccione', 'onchange'=>'showDias()']) ?>
+            <?= $form->field($model, 'periodicidad')->dropDownList(['D'=>'Diario', 'S'=>'Semanal', 'Q'=>'Quincenal', 'M'=>'Mensual', 'TRI'=>'Trimestral', 'SEM'=>'Semestral'], ['prompt'=>'Seleccione', 'onchange'=>'showDias()'], ['class'=>['form-control']]) ?>
         </div>
     </div>
 
@@ -83,31 +83,31 @@ $this->registerJs("
 
     <div class="row hide dias">
         <div class="col-md-3">
-            <?= $form->field($model, 'lu')->checkbox(['label'=>'Lunes'])?>
+            <?= $form->field($model, 'lu')->checkbox(['label'=>'Lunes'],['class'=>['form-control']])?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'ma')->checkbox(['label'=>'Martes']) ?>
+            <?= $form->field($model, 'ma')->checkbox(['label'=>'Martes'],['class'=>['form-control']]) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'mi')->checkbox(['label'=>'Miercoles']) ?>
+            <?= $form->field($model, 'mi')->checkbox(['label'=>'Miercoles'],['class'=>['form-control']]) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'ju')->checkbox(['label'=>'Jueves']) ?>
+            <?= $form->field($model, 'ju')->checkbox(['label'=>'Jueves'],['class'=>['form-control']]) ?>
         </div>
     </div>
 
     <div class="row hide dias">
         <div class="col-md-3">
-            <?= $form->field($model, 'vi')->checkbox(['label'=>'Viernes']) ?>
+            <?= $form->field($model, 'vi')->checkbox(['label'=>'Viernes'],['class'=>['form-control']]) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'sa')->checkbox(['label'=>'Sabado']) ?>
+            <?= $form->field($model, 'sa')->checkbox(['label'=>'Sabado'],['class'=>['form-control']]) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'do')->checkbox(['label'=>'Domingo']) ?>
+            <?= $form->field($model, 'do')->checkbox(['label'=>'Domingo'],['class'=>['form-control']]) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'to')->checkbox(['label'=>'Todos']) ?>
+            <?= $form->field($model, 'to')->checkbox(['label'=>'Todos'],['class'=>['form-control']]) ?>
         </div>
     </div>
 

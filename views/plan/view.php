@@ -16,6 +16,8 @@ $this->title = "Plan de Trabajo";
 $this->params['breadcrumbs'][] = ['label' => 'Plans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
+$this->registerJsFile('@web/js/plan.js',[\yii\web\View::POS_END]);
+
 $estaus = array(
     "A"=>"Aprobado",
     "R"=>"Registrado",
@@ -80,7 +82,7 @@ $estaus = array(
 						?>
 						<br />
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-2" style='margin-left:150px'>
 						<br />
 						<?= \yii\helpers\Html::a('Volver', Yii::$app->request->referrer,['class'=>'btn btn-success']) ?>
 						<br />
@@ -120,7 +122,15 @@ $estaus = array(
 									'attribute' => 'actividad.actividad',
 								],
 
-								['class' => 'yii\grid\ActionColumn'],
+								['class' => 'yii\grid\ActionColumn',
+                                'template' => '{update}{delete}',
+                                'buttons' => [
+            			    	'update' => function ($url,$newact) {
+            								return Html::a('<span class="glyphicon glyphicon-pencil"></span>', 'javascript:edit('.$newact->id_actividad_planificacion.', "actividad-planificada", '.$newact->id_plan.')',
+            										[]);
+            				}
+            	],
+            ],
 							],
 						]);
 						?>
@@ -129,3 +139,17 @@ $estaus = array(
 		</div>
 	</div>
 </div>
+
+<style>
+    .modal-backdrop {background: none;}
+</style>
+ <?php
+			\yii\bootstrap\Modal::begin([
+				'id'=>'modaledit',
+			    'header' => '<h2>Editar Actividada</h2>',
+			]);
+?>
+<div id="updateContent"></div>
+<?php
+			\yii\bootstrap\Modal::end();
+?>
