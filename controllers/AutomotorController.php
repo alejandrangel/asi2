@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Automotor;
-use yii\data\ActiveDataProvider;
+use app\models\AutomotorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,11 +35,11 @@ class AutomotorController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Automotor::find(),
-        ]);
+        $searchModel = new AutomotorSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -64,12 +64,6 @@ class AutomotorController extends Controller
     public function actionCreate()
     {
         $model = new Automotor();
-
-        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
-            Yii::$app->response->format = 'json'; $this->before($model);
-            return ActiveForm::validate($model);
-        }
-
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_automotor]);
