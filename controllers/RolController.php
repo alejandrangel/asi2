@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Rol;
 use app\models\RolSearch;
+use yii\db\IntegrityException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -101,8 +102,11 @@ class RolController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        try {
+            $this->findModel($id)->delete();
+        }catch (IntegrityException $e){
+            Yii::$app->session->setFlash('error','El registro esta siendo usado');
+        }
         return $this->redirect(['index']);
     }
 

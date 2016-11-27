@@ -133,4 +133,5 @@ class EquipoController extends Controller
     }
 
 
+
 }
