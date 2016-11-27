@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use yii\web\Response;
 
 /**
  * ActividadPlanificadaController implements the CRUD actions for ActividadPlanificada model.
@@ -92,20 +93,19 @@ class ActividadPlanificadaController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+
+   public function actionUpdate($id, $id_plan)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post())) {
-            $this->before($model);
-            if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id_actividad_planificacion]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['plan/view', 'id' => $id_plan]);
         } else {
-            return $this->render('update', [
+            return $this->render('../actividad-planificada/update', [
                 'model' => $model,
             ]);
         }
     }
+
 
     /**
      * Deletes an existing ActividadPlanificada model.
@@ -135,14 +135,29 @@ class ActividadPlanificadaController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
 
 
     public function actionUpdateForm($id){
     	$model = $this->findModel($id);
     	return $this->renderAjax('_form', [
     			'model' => $model,
-    			'action'=> '@web/actividad-planificada/update?id='.$id
+    			'action'=> '../actividad-planificada/update?id='.$id
+    	]);
+    }
+
+
+     public function actionLoad($id){
+    	\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    	return $this->findModel($id);
+    }
+
+
+    public function actionRenderForm($id,$id_plan){
+    	$model = $this->findModel($id);
+    	return $this->renderAjax('_form', [
+    			'model' => $model,
+                'id_plan' => $id_plan,
+    			'action'=> '../actividad-planificada/update?id='.$id.'&id_plan='.$id_plan
     	]);
     }
 

@@ -59,10 +59,11 @@ $this->registerJsFile('@web/js/plan.js',[\yii\web\View::POS_END]);
              'template' => '{view}{update}{delete}',
             'buttons' => [
             				'update' => function ($url, $model) {
-            								return Html::a('<span class="glyphicon glyphicon-pencil"></span>', 'javascript:edit('.$model->id_plan.')',
+            								return Html::a('<span class="glyphicon glyphicon-pencil"></span>', 'javascript:edit('.$model->id_plan.', "plan",""
+                                            )',
             										[]);
             				}
-            	],	
+            	],
             ],
         ],
     ]);
@@ -78,7 +79,7 @@ $this->registerJsFile('@web/js/plan.js',[\yii\web\View::POS_END]);
 			]);
 ?>
 <div id="updateContent"></div>
-<?php 
+<?php
 			\yii\bootstrap\Modal::end();
 ?>
 

@@ -4,18 +4,20 @@
 
 
 
-function edit(key){
+function edit(key, url, id_plan){
 
-	$('#updateContent').load('render-form?id='+key);
+    url = (url == 'plan' ? 'plan' : '../'+url);
+
+	$('#updateContent').load(url+'/render-form?id='+key+'&id_plan='+id_plan);
 	$("#modaledit").modal();
 	$.ajax({
 	    type     :'GET',
-	    url  	 : 'load',
+	    url  	 : url+'/load',
 	    data:{
-	    		id:key 
+	    		id:key
 	    },
 	    success  : function(data) {
-	       $("body").append(data.id_plan);
+	       $("body").append(data.id_actividad_planificacion);
 			trickModal();
 	   },
 	   complete:function (data){
