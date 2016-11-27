@@ -45,7 +45,7 @@ class Solicitud extends \yii\db\ActiveRecord
             [['telefono','nombre','direccion','observacion','comentario', 'id_colonia'], 'required'],
             [['id_colonia'], 'integer'],
             [['fecha'], 'safe'],
-            [['telefono', 'email', 'nombre', 'direccion', 'observacion', 'referencia'], 'string'],
+            [['telefono', 'email', 'nombre', 'direccion', 'observacion','comentario', 'referencia'], 'string'],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'email'],
@@ -114,11 +114,17 @@ class Solicitud extends \yii\db\ActiveRecord
         return $this->hasMany(Usuario::className(), ['id_usuario' => 'id_usuario']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMenuRutas() 
     {
         return ArrayHelper::map(Ruta::find()->all(), 'id_ruta', 'nombre');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMenuColonias() 
     {
         return ArrayHelper::map(Colonia::find()->all(), 'id_colonia', 'nombre');
