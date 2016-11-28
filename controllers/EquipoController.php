@@ -163,7 +163,7 @@ class EquipoController extends Controller
               ->innerJoin('modelo', 'modelo.id_modelo = automotor.modelo')
               ->innerJoin('marca', 'modelo.marca = marca.id_marca')
               ->innerJoin('color', 'color.id_color = automotor.color')
-              ->where(['equipo_automotor.id_equipo'=>$id])
+              //->where(['equipo_automotor.id_equipo'=>$id])
               ->all();
         echo json_encode($data,JSON_NUMERIC_CHECK);
     }
