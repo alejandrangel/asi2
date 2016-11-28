@@ -65,6 +65,7 @@ class OrdenController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $data = array("data"=>
             ViewOrdenes::find()
+                ->orderBy(['orderBY'=>'ASC'])
                 ->asArray()
                 ->all()
         );

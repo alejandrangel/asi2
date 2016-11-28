@@ -124,10 +124,12 @@ class ColorController extends Controller
         }
     }
 
-    public function actionReport(){
+    public function actionPdf(){
+
         $style = ".box{border-bottom:1px solid gray;border-top:1px solid gray;}";
         $style .= ".odd{background:#FEFEED}";
         $style .= ".edd{background:#FAFFFF}";
+
         $content = '<table width="100%" class="content" cellpadding="0" cellspacing="0">
                         <thead>
                                 <tr>
@@ -136,12 +138,26 @@ class ColorController extends Controller
                                  </tr>
                         </thead>
                         <tbody>';
+
         $colores = Color::find()->all();
+
+
+
+
         foreach ($colores as $color){
             $content.='<tr class="'.(($color->id_color%2==0)?'odd':'edd').'"><td>'.$color->id_color.'</td>';
             $content.='<td>'.$color->color.'</td></tr>';
         }
+
+
         $content .= '</tbody></table>';
+
+
+
+
+
         Report::PDF($style,'Reporte de Colores',$content);
+
+
     }
 }
