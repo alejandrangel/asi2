@@ -34,9 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 {
                   \"mData\": null,
                   \"bSortable\": false,
-                  \"mRender\": function(data, type, full) {
-                  
-                    return '<a class=\"\" href=".\yii\helpers\Url::base()."/equipo/view?id=' + full['id_equipo'] + '><span class=\"glyphicon glyphicon-eye-open\"></span> </a>';
+                  \"render\": function ( data, type, full, meta ) {
+                    var pk = data.id_equipo;
+                    var links = '<a class=\"\" href=".\yii\helpers\Url::base()."/equipo/view?id=' + full['id_equipo'] + '><span class=\"glyphicon glyphicon-eye-open\"></span> </a><a class=\"edit-action-equipo\" pk='+pk+' href=\"#\"><span class=\"glyphicon glyphicon-pencil\"></span> </a><a pk='+pk+' class=\"delete-action-equipo\" href=\"#\"><span class=\" glyphicon glyphicon-trash\"></span> </a>';
+                    return  links;
                   }
                 }]
                 ,
@@ -58,3 +59,26 @@ $this->params['breadcrumbs'][] = $this->title;
     </table>
 
 </div>
+
+
+<?php
+$this->registerJsFile('@web/js/bootstrap.min.js', ['position'=>\yii\web\View::POS_END]);
+$this->registerJs("
+
+$(document).on('click', '.delete-action-equipo', function() {
+    var pk = $(this).attr('pk');
+    if(confirm('Desea eliminar el registro?')){
+        $.post(
+            \"".\yii\helpers\Url::base()."/equipo/delete-ajax\",
+            {
+                id: pk
+            }
+        ).done(function(data){
+            if(data.success){
+                   eDtb.ajax.reload();
+            }});
+    }
+});", \yii\web\View::POS_END);
+
+        
+?>

@@ -7,8 +7,10 @@ use util\Util;
 use app\models\Estado;
 use app\models\Fuente;
 use app\models\Usuario;
-use app\models\Ruta;
-
+use app\models\Colonia;
+use app\models\Solicitud;
+use yii\helpers\Url;
+use yii\bootstrap\Modal;    
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Solicitud */
@@ -21,42 +23,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
         <?= Html::a('Volver', ['index'], ['class' => 'btn btn-success']) ?>
+
 
         <?php
                 if(\util\Acf::hasRol(\util\Acf::ADMIN)) 
                 {
                     if ($model->id_estado == 1){
-                    echo Html::a('Aprobar', ['aprobar', 'id' => $model->id_solicitud], [
-                        'class' => 'btn btn-success',
-                        'data' => [
-                        'confirm' => 'Seguro que desea aprobar la solicitud?',
-                        'method' => 'post',
-                    ],
+
+                    Modal::begin([
+                        'header' => '<h2>¿Desea aprobar la solicitud?</h2>',
+                        'toggleButton' => ['label' => 'Aprobar','class'=>'btn btn-success'],
                     ]);
-                }
-                if ($model->id_estado == 1)
-                {
-                    \yii\bootstrap\Modal::begin([
-                        'header' => '<h2>Rechazar solicitud</h2>',
+                    echo $this->render('_aprobar', ['model' => new Solicitud()]) ;
+                    Modal::end();   
+                     
+                    Modal::begin([
+                        'header' => '<h2>¿Desea rechazar la solicitud?</h2>',
                         'toggleButton' => ['label' => 'Rechazar','class'=>'btn btn-danger'],
                     ]);
-                    echo   $this->render('rechazar', ['model' => $model,'action'=> 'solicitud/rechazar',   
-
-                    ]) ;
-                    \yii\bootstrap\Modal::end();
+                    echo $this->render('_rechazar', ['model' => new Solicitud()]) ;
+                    Modal::end();                    
                 }
+
             }
         ?>
 
-    </p>
+    <p></p>
+  
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id_solicitud',
-            'fecha',
+            [
+                'attribute'=>'fecha',
+                'format'   => ['date', 'php:d/m/Y']
+            ],
             'telefono',
             'email:email',
             'nombre',
@@ -70,13 +73,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'id_fuente',
                 'value'=>Fuente::findOne($model->id_fuente)->fuente
             ],
-            'id_usuario',
+            [
+                'attribute'=>'id_usuario',
+                'value'=>Usuario::findOne($model->id_usuario)->nombre
+            ],
             'referencia',
             [
-                'attribute'=>'id_ruta',
-                'value'=>Ruta::findOne($model->id_ruta)->nombre
+                'attribute'=>'id_colonia',
+                'value'=>Colonia::findOne($model->id_colonia)->nombre
             ],
+            'comentario:ntext',
         ],
     ]) ?>
+
 
 </div>

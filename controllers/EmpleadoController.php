@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use util\Report;
 use conquer\select2\Select2Action;
 use Yii;
 use app\models\Empleado;
@@ -163,6 +164,49 @@ class EmpleadoController extends Controller
             Empleado::find()->asArray()->all()
         );
         echo json_encode($data,JSON_NUMERIC_CHECK);
+    }
+	
+	public function actionPdf(){
+
+        $style = ".box{border-bottom:1px solid gray;border-top:1px solid gray;}";
+        $style .= ".odd{background:#FEFEED}";
+        $style .= ".edd{background:#FAFFFF}";
+
+        $content = '<table width="100%" class="content" cellpadding="0" cellspacing="0">
+                        <thead>
+                                <tr>
+                                    <td class="box">No Empleado &nbsp;</td>
+                                    <td class="box">Nombre &nbsp;</td>
+									<td class="box">Apellido &nbsp;</td>
+									<td class="box">Direccion &nbsp;</td>
+									<td class="box">Telefono </td>
+                                 </tr>
+                        </thead>
+                        <tbody>';
+
+        $empleado = Empleado::find()->all();
+
+
+
+
+        foreach ($empleado as $emp){
+            $content.='<tr class="'.(($emp->id_empleado%2==0)?'odd':'edd').'"><td>'.$emp->id_empleado.'</td>';
+            $content.='<td>'.$emp->nombres.'</td>';
+			$content.='<td>'.$emp->apellidos.'</td>';
+			$content.='<td>'.$emp->direccion.'</td>';
+			$content.='<td>'.$emp->telefono.'</td></tr>';
+        }
+
+
+        $content .= '</tbody></table>';
+
+
+
+
+
+        Report::PDF($style,'Reporte de Empleado',$content);
+
+
     }
 
 

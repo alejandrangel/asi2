@@ -21,7 +21,7 @@ class SolicitudController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
+/*    public function behaviors()
     {
         return [
             'verbs' => [
@@ -31,7 +31,18 @@ class SolicitudController extends Controller
                 ],
             ],
         ];
-    }
+    }*/
+
+public function behaviors() {
+    return ArrayHelper::merge(parent::behaviors(), [
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['post'],
+                    ],
+                ],
+    ]);
+}
 
     /**
      * Lists all Solicitud models.
@@ -39,8 +50,9 @@ class SolicitudController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new SolicitudSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -76,11 +88,7 @@ class SolicitudController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_solicitud]);
         } else {
-           // return $model->getErrors();
-
-           return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $model->getErrors();
         }
     }
 
@@ -104,21 +112,30 @@ class SolicitudController extends Controller
         }
     }
 
-     public function actionAprobar()
-     {
-       //var_dump($_POST);
+    public function actionAprobar(){
+
+        //var_dump($_POST);
         //Yii::$app->end();
+
+        //solo si es un nuevo registro
+        //$model = new Solicitud();
 
         if(isset($_POST['Solicitud']))
         {
-            $id=$_POST['Solicitud']['id_solicitud'];  
+            //para no uno por uno, recorre un array
+            //$model->load(Yii::$app->request->post());
+
+            $id=$_POST['Solicitud']['id_solicitud'];
+            $coment= $_POST['Solicitud']['comentario'];
 
             $model = $this->findModel($id);
             $model->id_estado = '2';
+            $model->comentario=$coment;
             $model->save();
         }else{
             return $model->getErrors();
         }
+
 
         return $this->render('view', ['model' => $this->findModel($id)]);
 

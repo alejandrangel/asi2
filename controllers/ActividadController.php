@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Actividad;
 use yii\data\ActiveDataProvider;
+use yii\db\IntegrityException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -78,13 +79,18 @@ class ActividadController extends Controller
     public function actionCreate()
     {
         $model = new Actividad();
+        try {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_actividad]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_actividad]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+        }catch (IntegrityException $e){
+            Yii::$app->session->setFlash("error","Error registro duplicado");
+            return $this->redirect(['index']);
         }
     }
 
@@ -114,9 +120,11 @@ class ActividadController extends Controller
      * @return mixed
      */
     public function actionDelete($id)
-    {
+    {  try {
         $this->findModel($id)->delete();
-
+       }catch (IntegrityException $e){
+            Yii::$app->session->setFlash('error','El registro ya esta siendo usado no puede eliminarse');
+        }
         return $this->redirect(['index']);
     }
 

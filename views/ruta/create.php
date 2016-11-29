@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Ruta */
 
-$this->title = 'Create Ruta';
+$this->title = 'Crear Rutas';
 $this->params['breadcrumbs'][] = ['label' => 'Rutas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,5 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
+	
+	
 </div>
