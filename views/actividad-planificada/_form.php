@@ -13,15 +13,18 @@ $this->registerJs("
 
         var tipo = $('#actividadplanificada-tipo').val();
             switch(tipo){
+                case '':
                 case 'U':{
                     $('.periodo').hide();
                     $('.dias').hide();
-                    break;
+                    $('#actividadplanificada-periodicidad').val('')
+                     break;
                 }
                 case 'P':{
-                    $('.periodo').show().removeClass('hide');;
+                    $('.periodo').show().removeClass('hide');
                     break;
                 }
+
             }
 } showPeriodicidad();", yii\web\View::POS_END);
 
@@ -33,6 +36,10 @@ $this->registerJs("
 
        if(tipo == 'D'){
             $('.dias').show().removeClass('hide');
+            $('#actividadplanificada-to').attr('checked', true);
+       }else if(tipo == 'S'){
+            $('.dias').show().removeClass('hide');
+            $('input[type=checkbox]').attr('checked', true);
        } else {
             $('.dias').hide();
        }
@@ -113,12 +120,6 @@ $this->registerJs("
 
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model, 'id_plan')->textInput(["value"=>$id_plan, "readonly"=>"readonly"]) ?>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
             <?= $form->field($model, 'id_ruta')->widget(\conquer\select2\Select2Widget::className(),
                                                             ['ajax' => ['ruta/rutasList']]) ?>
 
@@ -133,12 +134,11 @@ $this->registerJs("
         </div>
     </div>
 
-
+    <?= $form->field($model, 'id_plan')->hiddenInput(["value"=>$id_plan]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
-
 
 
 </div>
