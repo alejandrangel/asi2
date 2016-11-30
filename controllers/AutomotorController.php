@@ -121,4 +121,14 @@ class AutomotorController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    public function actionListAll(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $data = array("data"=>
+            Automotor::find()->asArray()->all()
+        );
+        echo json_encode($data,JSON_NUMERIC_CHECK);
+    }
+
 }
