@@ -9,7 +9,7 @@ use yii\db\IntegrityException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\models\Accesos;
 /**
  * RolController implements the CRUD actions for Rol model.
  */
@@ -36,13 +36,27 @@ class RolController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new RolSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/rol"))
+			{
+								  $searchModel = new RolSearch();
+								$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+							return $this->render('index', [
+								'searchModel' => $searchModel,
+								'dataProvider' => $dataProvider,
+							]);             
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}	
+  
     }
 
     /**
@@ -52,9 +66,24 @@ class RolController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/rol"))
+			{
+				  return $this->render('view', [
+				'model' => $this->findModel($id),
+				]);
+				             
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}		
+      
     }
 
     /**
@@ -64,15 +93,29 @@ class RolController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Rol();
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/rol"))
+			{
+				       $model = new Rol();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_rol]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+						if ($model->load(Yii::$app->request->post()) && $model->save()) {
+							return $this->redirect(['view', 'id' => $model->id_rol]);
+						} else {
+							return $this->render('create', [
+								'model' => $model,
+							]);
+						}        
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}		
+      
     }
 
     /**
@@ -83,15 +126,29 @@ class RolController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/rol"))
+			{
+				     $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_rol]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+					if ($model->load(Yii::$app->request->post()) && $model->save()) {
+						return $this->redirect(['view', 'id' => $model->id_rol]);
+					} else {
+						return $this->render('update', [
+							'model' => $model,
+						]);
+					}				             
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}		
+   
     }
 
     /**
@@ -102,12 +159,27 @@ class RolController extends Controller
      */
     public function actionDelete($id)
     {
-        try {
-            $this->findModel($id)->delete();
-        }catch (IntegrityException $e){
-            Yii::$app->session->setFlash('error','El registro esta siendo usado');
-        }
-        return $this->redirect(['index']);
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/rol"))
+			{
+				        try {
+							$this->findModel($id)->delete();
+						}catch (IntegrityException $e){
+							Yii::$app->session->setFlash('error','El registro esta siendo usado');
+						}
+						return $this->redirect(['index']);
+				             
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}		
+
     }
 
     /**

@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Empleado;
+use app\models\Accesos;
 
 /**
  * ColoniaController implements the CRUD actions for Colonia model.
@@ -61,15 +62,28 @@ class ColoniaController extends Controller
      * Lists all Colonia models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex()	
     {
-        $searchModel = new ColoniaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			if (!\Yii::$app->user->isGuest) 
+			{	
+			
+				if (Accesos::HasAccess(Yii::$app->user->identity->id,"/colonia"))
+				{
+					   $searchModel = new ColoniaSearch();
+						$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+						return $this->render('index', [
+							'searchModel' => $searchModel,
+							'dataProvider' => $dataProvider,
+						]);
+				}else
+				{
+				return $this->redirect(["site/main"]);				
+				}
+			}else
+			{
+				return $this->redirect(["site/login"]);				
+			}   
     }
 
     /**
@@ -79,9 +93,25 @@ class ColoniaController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+		
+			if (!\Yii::$app->user->isGuest) 
+			{	
+			
+				if (Accesos::HasAccess(Yii::$app->user->identity->id,"/colonia"))
+				{
+					  return $this->render('view', [
+					  'model' => $this->findModel($id),
+					  ]);
+				}else
+				{
+				return $this->redirect(["site/main"]);				
+				}
+			}else
+			{
+				return $this->redirect(["site/login"]);				
+			}	
+		
+      
     }
 
     /**
@@ -91,15 +121,33 @@ class ColoniaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Colonia();
+		
+			if (!\Yii::$app->user->isGuest) 
+			{	
+			
+				if (Accesos::HasAccess(Yii::$app->user->identity->id,"/colonia"))
+				{
+					    $model = new Colonia();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colonia]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+						if ($model->load(Yii::$app->request->post()) && $model->save()) {
+							return $this->redirect(['view', 'id' => $model->id_colonia]);
+						} else {
+							return $this->render('create', [
+								'model' => $model,
+							]);
+						}
+				}else
+				{
+				return $this->redirect(["site/main"]);				
+				}
+			}else
+			{
+				return $this->redirect(["site/login"]);				
+			}	
+		
+		
+		
+    
     }
 
     /**
@@ -110,15 +158,32 @@ class ColoniaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+		
+		
+			if (!\Yii::$app->user->isGuest) 
+			{	
+			
+				if (Accesos::HasAccess(Yii::$app->user->identity->id,"/colonia"))
+				{
+					   $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colonia]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+						if ($model->load(Yii::$app->request->post()) && $model->save()) {
+							return $this->redirect(['view', 'id' => $model->id_colonia]);
+						} else {
+							return $this->render('update', [
+								'model' => $model,
+							]);
+						}
+				}else
+				{
+				return $this->redirect(["site/main"]);				
+				}
+			}else
+			{
+				return $this->redirect(["site/login"]);				
+			}	
+		
+     
     }
 
     /**
@@ -129,9 +194,27 @@ class ColoniaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+		
+		
+			if (!\Yii::$app->user->isGuest) 
+			{	
+			
+				if (Accesos::HasAccess(Yii::$app->user->identity->id,"/colonia"))
+				{
+					 $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+					return $this->redirect(['index']);	
+				}else
+				{
+				return $this->redirect(["site/main"]);				
+				}
+				
+				
+			}else
+			{
+				return $this->redirect(["site/login"]);				
+			}
+       
     }
 
     /**

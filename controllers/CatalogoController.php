@@ -8,6 +8,7 @@ use app\models\CatalogoTablaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Accesos;
 
 /**
  * CatalogoController implements the CRUD actions for CatalogoTabla model.
@@ -34,14 +35,26 @@ class CatalogoController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
-        $searchModel = new CatalogoTablaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    {		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/catalogo"))
+			{
+				              $searchModel = new CatalogoTablaSearch();
+							$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+							return $this->render('index', [
+								'searchModel' => $searchModel,
+								'dataProvider' => $dataProvider,
+							]);
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}  
     }
 
     /**
@@ -51,9 +64,24 @@ class CatalogoController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+		
+			if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/catalogo"))
+			{
+				          return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
+        ]); 
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}
+		
+     
     }
 
     /**
@@ -63,15 +91,29 @@ class CatalogoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new CatalogoTabla();
+		
+			if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/catalogo"))
+			{
+				      $model = new CatalogoTabla();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_catalogo_tabla]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+						if ($model->load(Yii::$app->request->post()) && $model->save()) {
+							return $this->redirect(['view', 'id' => $model->id_catalogo_tabla]);
+						} else {
+							return $this->render('create', [
+								'model' => $model,
+							]);
+						}      
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}		
+    
     }
 
     /**
@@ -82,15 +124,28 @@ class CatalogoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/catalogo"))
+			{
+				        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_catalogo_tabla]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+						if ($model->load(Yii::$app->request->post()) && $model->save()) {
+							return $this->redirect(['view', 'id' => $model->id_catalogo_tabla]);
+						} else {
+							return $this->render('update', [
+								'model' => $model,
+							]);
+						}     
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}   
     }
 
     /**
@@ -101,9 +156,26 @@ class CatalogoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/catalogo"))
+			{
+				   $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+					return $this->redirect(['index']);
+				        
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}
+		
+		
+     
     }
 
     /**
