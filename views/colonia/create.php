@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Colonia */
 
-$this->title = 'Create Colonia';
+$this->title = 'Crear Colonia';
 $this->params['breadcrumbs'][] = ['label' => 'Colonias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
