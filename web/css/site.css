@@ -74,3 +74,10 @@ h1, .h1{
 .sidebar .nav li > a, .off-canvas-sidebar .nav li > a{
 	padding: 0 !important;
 }
+.dataTables_length{
+	display: none;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+	padding: 0 !important;
+	margin: 0 !important;
+}
