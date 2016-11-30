@@ -65,6 +65,12 @@ class AutomotorController extends Controller
     {
         $model = new Automotor();
 
+        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return ActiveForm::validate($model);
+        }
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_automotor]);
         } else {
@@ -121,6 +127,7 @@ class AutomotorController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+<<<<<<< HEAD
 	
 	public function actionPdf(){
 
@@ -164,4 +171,16 @@ class AutomotorController extends Controller
 
 
     }
+=======
+
+
+    public function actionListAll(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $data = array("data"=>
+            Automotor::find()->asArray()->all()
+        );
+        echo json_encode($data,JSON_NUMERIC_CHECK);
+    }
+
+>>>>>>> origin/master
 }
