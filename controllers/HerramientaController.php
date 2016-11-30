@@ -9,7 +9,8 @@ use yii\console\Response;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\models\Estado;
+use util\Report;
 /**
  * HerramientaController implements the CRUD actions for Herramienta model.
  */
@@ -129,6 +130,51 @@ class HerramientaController extends Controller
             Herramienta::find()->asArray()->all()
         );
         echo json_encode($data,JSON_NUMERIC_CHECK);
+    }
+	
+	public function actionPdf(){
+
+        $style = ".box{border-bottom:1px solid gray;border-top:1px solid gray;}";
+        $style .= ".odd{background:#FEFEED}";
+        $style .= ".edd{background:#FAFFFF}";
+
+        $content = '<table width="100%" class="content" cellpadding="0" cellspacing="0">
+                        <thead>
+                                <tr>
+                                    <td class="box">No Herramienta &nbsp;</td>
+                                    <td class="box">Descripcion &nbsp;</td>
+									<td class="box">Estado &nbsp;</td>
+                                 </tr>
+                        </thead>
+                        <tbody>';
+
+        $herramientas = Herramienta::find()->all();
+
+
+
+
+        foreach ($herramientas as $herra){
+            $content.='<tr class="'.(($herra->id_herramienta%2==0)?'odd':'edd').'"><td>'.$herra->id_herramienta.'</td>';
+            $content.='<td>'.$herra->descripcion.'</td>';
+			$palabra="";
+			if($herra->activo=='A')
+				$palabra='Activo';
+			else
+				$palabra='Inactivo';
+			
+			$content.='<td>'.$palabra.'</td></tr>';
+        }
+
+
+        $content .= '</tbody></table>';
+
+
+
+
+
+        Report::PDF($style,'Reporte de Herramientas',$content);
+
+
     }
 
 }
