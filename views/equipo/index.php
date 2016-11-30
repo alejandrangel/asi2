@@ -15,7 +15,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Nuevo Equipo', ['create'], ['class' => 'btn btn-success']) ?>
+
     </p>
+    <div class="row">
+        <div class="col-md-12">
+            <span style="color: red; font-size: 0.9em" id="err"></span>
+        </div>
+    </div>
     <?php
     $this->registerJs("
            var eDtb = $('#equipo-datarow').DataTable( {
@@ -61,11 +67,40 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 
+
+
+    <div class="modal fade" id="dlg-edit-equipo" tabindex="-1" role="dialog" aria-labelledby="personal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="">Editar Equipo</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="err-p" style="color: red; font-size: 0.9em"></span>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 <?php
 $this->registerJsFile('@web/js/bootstrap.min.js', ['position'=>\yii\web\View::POS_END]);
 $this->registerJs("
+$(document).on('click', '.edit-action-equipo', function() {
+    $('#err').html('');
+    var pk = $(this).attr('pk'); 
+     
+});
+
 
 $(document).on('click', '.delete-action-equipo', function() {
+    $('#err').html('');
     var pk = $(this).attr('pk');
     if(confirm('Desea eliminar el registro?')){
         $.post(
@@ -76,7 +111,10 @@ $(document).on('click', '.delete-action-equipo', function() {
         ).done(function(data){
             if(data.success){
                    eDtb.ajax.reload();
-            }});
+            }else{
+                $('#err').html(data.error);
+            }
+       });
     }
 });", \yii\web\View::POS_END);
 

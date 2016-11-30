@@ -148,7 +148,7 @@ class EquipoController extends Controller
         }catch (IntegrityException $e){
             echo json_encode(
                 array(
-                    'success'=>'No',
+                    'success'=>false,
                     'error'=>'No se puede eliminar el registro esta siendo usado'
             ),JSON_NUMERIC_CHECK);
         }
@@ -214,12 +214,12 @@ class EquipoController extends Controller
         try {
             echo json_encode(array("success"=>$equipoPersonal->save()));
         }
-        catch (IntegrityException $e){echo json_encode(array("success"=>false));}
-        catch (Exception $e){echo json_encode(array("success"=>false));}
+        catch (IntegrityException $e){echo json_encode(array("success"=>false,'msj'=>'Ya fue agregado'));}
+        catch (Exception $e){echo json_encode(array("success"=>false,'msj'=>'No se pudo agregar'));}
     }
 
 
-    public function actionAddAutomoto(){
+    public function actionAddAutomotor(){
         Yii::$app->response->format = Response::FORMAT_JSON;
         $equipo   = Yii::$app->request->post('equipo');
         $automotor = Yii::$app->request->post('automotor');
@@ -227,11 +227,12 @@ class EquipoController extends Controller
         $equipoAutomotor              = new EquipoAutomotor();
         $equipoAutomotor->id_automor  = $automotor;
         $equipoAutomotor->id_equipo   = $equipo;
+
         try {
             echo json_encode(array("success"=>$equipoAutomotor->save()));
         }
-        catch (IntegrityException $e){echo json_encode(array("success"=>"Ya fue agregado"));}
-        catch (Exception $e){echo json_encode(array("success"=>"Error"));}
+        catch (IntegrityException $e){echo json_encode(array("success"=>false,'msj'=>'Ya fue agregado'));}
+        catch (Exception $e){echo json_encode(array("success"=>false,'msj'=>'No se pudo agregar'));}
     }
 
 

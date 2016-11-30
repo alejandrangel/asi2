@@ -24,7 +24,7 @@ $this->registerJs("
     </div>
     <div class="row">
         <div class="col-md-10">
-            <?= \yii\helpers\Html::a('Volver', Yii::$app->request->referrer,['class'=>'btn btn-success']) ?>
+            <?= \yii\helpers\Html::a('Volver', \yii\helpers\Url::to('@web/equipo'),['class'=>'btn btn-success']) ?>
             <?php if(util\Acf::hasRol(\util\Acf::SUPER) || util\Acf::hasRol(util\Acf::ADMIN)){
                 echo \yii\helpers\Html::a('Inactivo/Activo','#',['class'=>'btn btn-success']);
             } ?>
@@ -191,6 +191,9 @@ $this->registerJs("
                   { \"width\": \"50px\", \"targets\": 0 }
                 ],
                  \"aoColumns\": [
+                 {
+                  \"mData\": 'id_automotor'
+                },
                 {
                   \"mData\": 'placa'
                 },{
@@ -235,6 +238,21 @@ $this->registerJs("
                     if(data.success){
                         Personal.ajax.reload();
                         $('#dlg-buscar-personal').modal('hide');
+                        $('#err-p').html('');
+                    }else{
+                        $('#err-p').html(data.msj);
+                    }
+                });
+            });
+            $('#automotor-datarow-select tbody').on('dblclick', 'tr', function () {
+                var aut =  $(this).find('td').first().html();
+                $.post( \"".\yii\helpers\Url::base()."/equipo/add-automotor\", { equipo: EQUIPO , automotor:aut  } ).done(function(data){
+                    if(data.success){
+                        Automotores.ajax.reload();
+                        $('#dlg-buscar-automotor').modal('hide');
+                        $('#err-a').html('');
+                    }else{
+                        $('#err-a').html(data.msj);
                     }
                 });
             });
@@ -248,9 +266,11 @@ $this->registerJs("
                     <h4 class="modal-title" id="">Seleccione un Automotor</h4>
                 </div>
                 <div class="modal-body">
+                    <span id="err-a" style="color: red; font-size: 0.9em"></span>
                     <table class="table" id="automotor-datarow-select" style="width: 100%">
                         <thead>
                             <tr>
+                                <td width="3%">Código</td>
                                 <td width="3%">Placa</td>
                                 <td>Marca</td>
                                 <td>Modelo</td>
@@ -278,6 +298,7 @@ $this->registerJs("
                     <h4 class="modal-title" id="">Seleccione un Empleado</h4>
                 </div>
                 <div class="modal-body">
+                    <span id="err-p" style="color: red; font-size: 0.9em"></span>
                     <table class="table" id="personal-datarow-select" style="width: 100%">
                         <thead>
                         <tr>
@@ -326,7 +347,7 @@ $this->registerJs("
     });    
 ",\yii\web\View::POS_END);
 
-$this->registerCss("#personal-datarow-select tbody tr:hover{
+$this->registerCss("#personal-datarow-select tbody tr:hover, #automotor-datarow-select tbody tr:hover{
     background:#337ab7;
     cursor:pointer;
     color:white;
