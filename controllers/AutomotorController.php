@@ -65,6 +65,12 @@ class AutomotorController extends Controller
     {
         $model = new Automotor();
 
+        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return ActiveForm::validate($model);
+        }
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_automotor]);
         } else {
