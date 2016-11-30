@@ -62,7 +62,7 @@ AppAsset::register($this);
                         <li>
                             <a href="<?= Url::to("@web/site/logout") ?>">
                                 <i class="ti-user"></i>
-                                <p>Salir</p>
+                                <p style="font-size: 1.1em;">Salir (<?= @Yii::$app->user->identity->nombre ?>)</p>
                             </a>
                         </li>
                         <!-- -->
