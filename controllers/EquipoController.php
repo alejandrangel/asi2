@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Empleado;
+use app\models\EquipoAutomotor;
+use app\models\EquipoPersonal;
 use Yii;
 use app\models\Equipo;
 use yii\data\ActiveDataProvider;
@@ -154,29 +157,69 @@ class EquipoController extends Controller
     public function actionListEmpleadoEquipo(){
 
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $id = Yii::$app->request->post('equipo');
+        $id = Yii::$app->request->get('equipo');
 
         $query = new Query;
-        $data = $query->select(['equipo_automotor.id_equipo','marca.marca','color.color','automotor.placa'])
-              ->from('equipo_automotor')
-              ->innerJoin('automotor', 'equipo_automotor.id_automor = automotor.id_automotor')
-              ->innerJoin('modelo', 'modelo.id_modelo = automotor.modelo')
-              ->innerJoin('marca', 'modelo.marca = marca.id_marca')
-              ->innerJoin('color', 'color.id_color = automotor.color')
-              //->where(['equipo_automotor.id_equipo'=>$id])
-              ->all();
+        $data = $query->select(['equipo_personal.id_empleado','empleado.nombres','empleado.apellidos','cargo.descripcion'])
+            ->from('equipo_personal')
+            ->innerJoin('empleado', 'empleado.id_empleado = equipo_personal.id_empleado')
+            ->innerJoin('cargo', 'cargo.id_cargo = empleado.cargo')
+            ->where(['equipo_personal.id_equipo'=>$id])
+            ->all();
+        $data = array("data"=>
+            $data
+        );
+
+
         echo json_encode($data,JSON_NUMERIC_CHECK);
     }
 
 
     public function actionListAutomotorEquipo(){
+
+
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $id = Yii::$app->request->post('equipo');
+        $id = Yii::$app->request->get('equipo');
+
+        $query = new Query;
+        $data = $query->select(['equipo_automotor.id_equipo','marca.marca','color.color','automotor.placa','equipo_automotor.id_automor'])
+            ->from('equipo_automotor')
+            ->innerJoin('automotor', 'equipo_automotor.id_automor = automotor.id_automotor')
+            ->innerJoin('modelo', 'modelo.id_modelo = automotor.modelo')
+            ->innerJoin('marca', 'modelo.marca = marca.id_marca')
+            ->innerJoin('color', 'color.id_color = automotor.color')
+            ->where(['equipo_automotor.id_equipo'=>$id])
+            ->all();
         $data = array("data"=>
-            Equipo::find()->where(['id_equipo'=>$id])->asArray()->all()
+            $data
         );
         echo json_encode($data,JSON_NUMERIC_CHECK);
     }
 
+
+    public function actionDeleteEmpleado(){
+        $equipo = Yii::$app->request->post('equipo');
+        $empleado =Yii::$app->request->post('empleado');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        try{
+           $empleado = EquipoPersonal::find()->where(['id_equipo'=>$equipo,'id_empleado'=>$empleado])->one();
+           echo json_encode(array('success'=>$empleado->delete()));
+        }catch (IntegrityException $e){
+            echo json_encode(array('success'=>false));
+        }
+    }
+
+    public function actionDeleteAutomotor(){
+        $equipo = Yii::$app->request->post('equipo');
+        $automotor = Yii::$app->request->post('automotor');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        try{
+            $automotor = EquipoAutomotor::find()->where(['id_equipo'=>$equipo,'id_automor'=>$automotor])->one();
+            echo json_encode(array('success'=>$automotor->delete()));
+        }catch (IntegrityException $e){
+            echo json_encode(array('success'=>false));
+        }
+
+    }
 
 }
