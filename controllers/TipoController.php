@@ -8,6 +8,7 @@ use app\models\TipoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Accesos;
 
 /**
  * TipoController implements the CRUD actions for Tipo model.
@@ -35,13 +36,28 @@ class TipoController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TipoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/tipo"))
+			{
+				        $searchModel = new TipoSearch();
+						$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+						return $this->render('index', [
+							'searchModel' => $searchModel,
+							'dataProvider' => $dataProvider,
+						]);
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}		
+   
     }
 
     /**
@@ -51,9 +67,24 @@ class TipoController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/tipo"))
+			{
+				    return $this->render('view', [
+					'model' => $this->findModel($id),
+					]);  
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}
+		
+     
     }
 
     /**
@@ -63,15 +94,29 @@ class TipoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Tipo();
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/tipo"))
+			{
+				       $model = new Tipo();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_tipo]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+						if ($model->load(Yii::$app->request->post()) && $model->save()) {
+							return $this->redirect(['view', 'id' => $model->id_tipo]);
+						} else {
+							return $this->render('create', [
+								'model' => $model,
+							]);
+						}
+				   
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		} 
     }
 
     /**
@@ -82,15 +127,28 @@ class TipoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/tipo"))
+			{
+				    $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_tipo]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+					if ($model->load(Yii::$app->request->post()) && $model->save()) {
+						return $this->redirect(['view', 'id' => $model->id_tipo]);
+					} else {
+						return $this->render('update', [
+							'model' => $model,
+						]);
+					}				   
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}    
     }
 
     /**
@@ -101,9 +159,24 @@ class TipoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+		
+		if (!\Yii::$app->user->isGuest) 
+		{			
+			if (Accesos::HasAccess(Yii::$app->user->identity->id,"/tipo"))
+			{
+				     $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+					return $this->redirect(['index']);
+			}else
+			{
+			return $this->redirect(["site/main"]);				
+			}
+		}else
+		{
+			return $this->redirect(["site/login"]);				
+		}
+		
+      
     }
 
     /**
