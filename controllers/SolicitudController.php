@@ -82,13 +82,14 @@ public function behaviors() {
         $model = new Solicitud();
         $model->id_estado = 1;
         $model->id_fuente = 1;
-        $model->id_ruta = 1;
         $model->id_usuario = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_solicitud]);
         } else {
-            return $model->getErrors();
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
     }
 
