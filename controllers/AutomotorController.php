@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use util\Report;
 use Yii;
 use app\models\Automotor;
 use app\models\AutomotorSearch;
@@ -120,5 +120,48 @@ class AutomotorController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+	
+	public function actionPdf(){
+
+        $style = ".box{border-bottom:1px solid gray;border-top:1px solid gray;}";
+        $style .= ".odd{background:#FEFEED}";
+        $style .= ".edd{background:#FAFFFF}";
+
+        $content = '<table width="100%" class="content" cellpadding="0" cellspacing="0">
+                        <thead>
+                                <tr>
+                                    <td class="box">No Automotor &nbsp;</td>
+                                    <td class="box">Modelo &nbsp;</td>
+									<td class="box">Placa &nbsp;</td>
+									<td class="box">Tipo &nbsp;</td>
+									<td class="box">Estado </td>
+                                 </tr>
+                        </thead>
+                        <tbody>';
+
+        $automotores = Automotor::find()->all();
+
+
+
+
+        foreach ($automotores as $auto){
+            $content.='<tr class="'.(($auto->id_automotor%2==0)?'odd':'edd').'"><td>'.$auto->id_automotor.'</td>';
+            $content.='<td>'.$auto->modelo.'</td>';
+			$content.='<td>'.$auto->placa.'</td>';
+			$content.='<td>'.$auto->tipo.'</td>';
+			$content.='<td>'.$auto->estado.'</td></tr>';
+        }
+
+
+        $content .= '</tbody></table>';
+
+
+
+
+
+        Report::PDF($style,'Reporte de Automotores',$content);
+
+
     }
 }
