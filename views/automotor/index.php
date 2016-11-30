@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 /* @var $searchModel app\models\AutomotorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Automotors';
+$this->title = 'Automotores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="automotor-index">

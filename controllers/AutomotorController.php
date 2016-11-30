@@ -127,7 +127,7 @@ class AutomotorController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-<<<<<<< HEAD
+
 	
 	public function actionPdf(){
 
@@ -171,7 +171,6 @@ class AutomotorController extends Controller
 
 
     }
-=======
 
 
     public function actionListAll(){
@@ -182,5 +181,5 @@ class AutomotorController extends Controller
         echo json_encode($data,JSON_NUMERIC_CHECK);
     }
 
->>>>>>> origin/master
+
 }

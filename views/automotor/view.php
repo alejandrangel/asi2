@@ -13,7 +13,7 @@ use app\models\Combustible;
 /* @var $model app\models\Automotor */
 
 $this->title = $model->id_automotor;
-$this->params['breadcrumbs'][] = ['label' => 'Automotors', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Automotores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="automotor-view">
@@ -21,12 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-<<<<<<< HEAD
-        <?= Html::a('Actualizar', ['update', 'id' => $model->id_automotor], ['class' => 'btn btn-primary']) ?>        
-=======
         <?= Html::a('Update', ['update', 'id' => $model->id_automotor], ['class' => 'btn btn-primary']) ?>    
 		<?= \yii\helpers\Html::a('Volver', Yii::$app->request->referrer,['class'=>'btn btn-success']) ?>		
->>>>>>> origin/master
+
     </p>
 
     <?= DetailView::widget([
