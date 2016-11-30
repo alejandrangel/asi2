@@ -174,7 +174,6 @@ class AutomotorController extends Controller
 
     }
 
-
     public function actionListAll(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $data = array("data"=>
