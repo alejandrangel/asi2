@@ -8,7 +8,9 @@ use app\models\AutomotorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\models\Tipo;
+use app\models\Estado;
+use app\models\Modelo;
 /**
  * AutomotorController implements the CRUD actions for Automotor model.
  */
@@ -154,10 +156,10 @@ class AutomotorController extends Controller
 
         foreach ($automotores as $auto){
             $content.='<tr class="'.(($auto->id_automotor%2==0)?'odd':'edd').'"><td>'.$auto->id_automotor.'</td>';
-            $content.='<td>'.$auto->modelo.'</td>';
+            $content.='<td>'.Modelo::findOne($auto->tipo)->modelo.'</td>';
 			$content.='<td>'.$auto->placa.'</td>';
-			$content.='<td>'.$auto->tipo.'</td>';
-			$content.='<td>'.$auto->estado.'</td></tr>';
+			$content.='<td>'.Tipo::findOne($auto->tipo)->tipo.'</td>';
+			$content.='<td>'.Estado::findOne($auto->estado)->estado.'</td></tr>';
         }
 
 
