@@ -18,8 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-12"><h2><?= $model->nombre ?></h2></div>
     </div>
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_ruta], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_ruta], [
+        <?= Html::a('Actualizar', ['update', 'id' => $model->id_ruta], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id_ruta], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Esta seguro de eliminar?',
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id_colonia',
                     'orden',
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                   // ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]); ?>
 

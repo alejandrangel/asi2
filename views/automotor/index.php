@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 /* @var $searchModel app\models\AutomotorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Automotors';
+$this->title = 'Automotores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="automotor-index">
@@ -18,7 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Automotor', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Automotor', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Listado Automotor', ['pdf'], ['class' => 'btn btn-info']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

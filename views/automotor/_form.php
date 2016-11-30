@@ -29,6 +29,7 @@ use app\models\Combustible;
 	<?= $form->field($model, 'combustible')->dropDownList(ArrayHelper::map(Combustible::find()->all(), 'id_combustible', 'combustible'))?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+		<?= \yii\helpers\Html::a('Volver', Yii::$app->request->referrer,['class'=>'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
