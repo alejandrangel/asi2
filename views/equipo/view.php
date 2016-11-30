@@ -67,10 +67,10 @@ $this->registerJs("
             <button class="btn btn-success" data-toggle="modal" data-target="#dlg-buscar-automotor">Agregar Automotor</button>
             <div class="row">
               <div class="col-md-12">
-                  <table class="table dataTable" id="automotor-datarow" width="100%">
+                  <table class="table dataTable table-striped table-bordered" id="automotor-datarow" width="100%">
                       <thead>
                         <tr>
-                            <td width="3%">Código</td>
+                            <td width="3%" style="min-width: 30px;">Código</td>
                             <td>Placa</td>
                             <td>Marca</td>
                             <td>Color</td>
@@ -86,10 +86,10 @@ $this->registerJs("
             <button class="btn btn-success" data-toggle="modal" data-target="#dlg-buscar-personal">Agregar Empleado</button>
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table dataTable" id="personal-datarow" width="100%">
+                    <table class="table dataTable table-striped table-bordered" id="personal-datarow" width="100%">
                         <thead>
                             <tr>
-                                <td width="3%" >Código</td>
+                                <td width="3%" style="min-width: 30px;">Código</td>
                                 <td>Nombre</td>
                                 <td>Apellido</td>
                                 <td>Cargo</td>
@@ -115,6 +115,9 @@ $this->registerJs("
                     { \"data\": \"color\" },
                     { \"data\": \"placa\" },
                     { \"data\": \"id_automor\" }
+                ],
+                \"columnDefs\": [
+                  { \"width\": \"50px\", \"targets\": 0 }
                 ],
                  \"aoColumns\": [{
                   \"mData\": 'id_automor'
@@ -148,6 +151,9 @@ $this->registerJs("
                     { \"data\": \"apellidos\" },
                     { \"data\": \"descripcion\" }
                 ],
+                \"columnDefs\": [
+                  { \"width\": \"50px\", \"targets\": 0 }
+                ],
                  \"aoColumns\": [{
                   \"mData\": 'id_empleado'
                 }, {
@@ -170,6 +176,68 @@ $this->registerJs("
                     \"url\":\"".\yii\helpers\Url::base() ."/js/locale/Spanish.json\"
                 }
             });
+            var autAdd = $('#automotor-datarow-select').DataTable( {
+                \"info\":     false,
+                
+                \"ajax\":\"".\yii\helpers\Url::base() ."/automotor/list-all\",
+                \"columns\":[
+                    { \"data\": \"id_automotor\" },
+                    { \"data\": \"placa\" },
+                    { \"data\": \"marca\" },
+                    { \"data\": \"modelo\" },
+                    { \"data\": \"color\" }
+                ],
+                \"columnDefs\": [
+                  { \"width\": \"50px\", \"targets\": 0 }
+                ],
+                 \"aoColumns\": [
+                {
+                  \"mData\": 'placa'
+                },{
+                  \"mData\": 'marca'
+                },{
+                  \"mData\": 'modelo'
+                },{
+                  \"mData\": 'color'
+                }],
+                \"language\": {
+                    \"url\":\"".\yii\helpers\Url::base() ."/js/locale/Spanish.json\"
+                }
+            });
+            var persAdd = $('#personal-datarow-select').DataTable( {
+                \"info\":     false,
+                
+                \"ajax\":\"".\yii\helpers\Url::base() ."/empleado/list-all\",
+                \"columns\":[
+                    { \"data\": \"id_empleado\" },
+                    { \"data\": \"nombres\" },
+                    { \"data\": \"apellidos\" }
+                ],
+                \"columnDefs\": [
+                  { \"width\": \"50px\", \"targets\": 0 }
+                ],
+                 \"aoColumns\": [
+                 {
+                  \"mData\": 'id_empleado'
+                }
+                ,{
+                  \"mData\": 'nombres'
+                },{
+                  \"mData\": 'apellidos'
+                }],
+                \"language\": {
+                    \"url\":\"".\yii\helpers\Url::base() ."/js/locale/Spanish.json\"
+                }
+            });
+            $('#personal-datarow-select tbody').on('dblclick', 'tr', function () {
+                var emp =  $(this).find('td').first().html();
+                $.post( \"".\yii\helpers\Url::base()."/equipo/add-empleado\", { equipo: EQUIPO , empleado:emp  } ).done(function(data){
+                    if(data.success){
+                        Personal.ajax.reload();
+                        $('#dlg-buscar-personal').modal('hide');
+                    }
+                });
+            });
     ",\yii\web\View::POS_END);
 ?>
     <div class="modal fade" id="dlg-buscar-automotor" tabindex="-1" role="dialog" aria-labelledby="automotor">
@@ -182,9 +250,12 @@ $this->registerJs("
                 <div class="modal-body">
                     <table class="table" id="automotor-datarow-select" style="width: 100%">
                         <thead>
-                        <tr>
-                            <td>Placa-Automotor</td>
-                        </tr>
+                            <tr>
+                                <td width="3%">Placa</td>
+                                <td>Marca</td>
+                                <td>Modelo</td>
+                                <td>Color</td>
+                            </tr>
                         </thead>
                     </table>
                 </div>
@@ -207,10 +278,12 @@ $this->registerJs("
                     <h4 class="modal-title" id="">Seleccione un Empleado</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table" id="automotor-datarow-select" style="width: 100%">
+                    <table class="table" id="personal-datarow-select" style="width: 100%">
                         <thead>
                         <tr>
-                            <td>Empleado</td>
+                            <td>Código</td>
+                            <td>Nombre</td>
+                            <td>Apellido</td>
                         </tr>
                         </thead>
                     </table>
@@ -252,3 +325,9 @@ $this->registerJs("
         }
     });    
 ",\yii\web\View::POS_END);
+
+$this->registerCss("#personal-datarow-select tbody tr:hover{
+    background:#337ab7;
+    cursor:pointer;
+    color:white;
+}");

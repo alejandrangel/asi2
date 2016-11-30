@@ -19,9 +19,9 @@ $this->registerJs("var OrdenLoad = ".$model->id_orden_trabajo.";", \yii\web\View
                <h1><?= Html::encode($this->title) ?></h1>
            </div>
            <div class="col-md-1" style="margin-top: 12px;">
-               <?php if(util\Acf::hasRol(\util\Acf::SUPER)){
+               <?php if(util\Acf::hasRol(\util\Acf::SUPER) || util\Acf::hasRol(util\Acf::ADMIN)){
                    switch ($model->id_estado) {
-                       case 1:
+                       case 9:
                    ?>
                        <button class="btn btn-info" id="ejecutar">Ejecutar</button>
                    <?php break;
@@ -77,8 +77,8 @@ $this->registerJs("var OrdenLoad = ".$model->id_orden_trabajo.";", \yii\web\View
             <label>Actividad:</label>
         </div>
         <div class="col-md-1">
-            <?php if(util\Acf::hasRol(\util\Acf::SUPER)){
-                if($model->id_estado ==1 && $model->tipo =='E') {?>
+            <?php if(util\Acf::hasRol(\util\Acf::SUPER)|| util\Acf::hasRol(util\Acf::ADMIN)){
+                if($model->id_estado ==9 && $model->tipo =='E') {?>
                         <button  id="buscar-actividad" data-toggle="modal" data-target="#dlg-buscar-actividad">
                             <i class="glyphicon-search glyphicon"></i>
                         </button>
@@ -97,8 +97,8 @@ $this->registerJs("var OrdenLoad = ".$model->id_orden_trabajo.";", \yii\web\View
             <label>Equipo:</label>
         </div>
         <div class="col-md-1">
-            <?php if(util\Acf::hasRol(\util\Acf::SUPER)){
-                if($model->id_estado == 1) {
+            <?php if(util\Acf::hasRol(\util\Acf::SUPER) || util\Acf::hasRol(util\Acf::ADMIN)){
+                if($model->id_estado == 9) {
                         ?>
                         <button  id="buscar-equipo" data-toggle="modal" data-target="#dlg-buscar-equipo">
                             <i class="glyphicon-search glyphicon"></i>
@@ -246,7 +246,7 @@ $this->registerJs("var OrdenLoad = ".$model->id_orden_trabajo.";", \yii\web\View
                 <div class="tab-content">
                     <div id="Automotores" class="tab-pane  active">
                         <br />
-                        <?php if($model->id_estado ==1){ ?>
+                        <?php if($model->id_estado ==9){ ?>
 
                             <button class="btn btn-success" data-toggle="modal" data-target="#dlg-addautomotor">Agregar Automotor</button>
 
@@ -268,7 +268,7 @@ $this->registerJs("var OrdenLoad = ".$model->id_orden_trabajo.";", \yii\web\View
                     </div>
                     <div id="Herramientas" class="tab-pane fade">
                         <br />
-                        <?php if($model->id_estado ==1){ ?>
+                        <?php if($model->id_estado ==9){ ?>
 
 
                             <button class="btn btn-success" data-toggle="modal" data-target="#dlg-buscar-addherramienta">Agregar Herramienta</button>
@@ -286,9 +286,8 @@ $this->registerJs("var OrdenLoad = ".$model->id_orden_trabajo.";", \yii\web\View
                     </div>
                     <div id="Personal" class="tab-pane fade">
                         <br />
-                        <?php if($model->id_estado ==1){ ?>
-
-
+                        <?php if($model->id_estado ==9){ ?>
+                            
                             <button class="btn btn-success"  data-toggle="modal" data-target="#dlg-buscar-addpersonal" >Agregar Personal</button>
 
                         <br /><br />

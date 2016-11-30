@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Automotor;
 use app\models\AutomotorSearch;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -131,8 +132,22 @@ class AutomotorController extends Controller
 
     public function actionListAll(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $query = new Query();
+        $data = $query->select([
+            'id_automotor'=>'automotor.id_automotor',
+            'placa'=>'automotor.placa',
+            'marca'=>'marca.marca',
+            'color'=>'color.color',
+            'modelo'=>'modelo.modelo'
+        ])->from('automotor')
+            ->innerJoin('modelo','modelo.id_modelo = automotor.modelo')
+            ->innerJoin('marca','marca.id_marca = modelo.marca')
+            ->innerJoin('color','automotor.color = color.id_color')
+          ->all();
+
         $data = array("data"=>
-            Automotor::find()->asArray()->all()
+                $data
         );
         echo json_encode($data,JSON_NUMERIC_CHECK);
     }

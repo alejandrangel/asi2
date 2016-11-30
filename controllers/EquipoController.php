@@ -8,6 +8,7 @@ use app\models\EquipoPersonal;
 use Yii;
 use app\models\Equipo;
 use yii\data\ActiveDataProvider;
+use yii\db\Exception;
 use yii\db\IntegrityException;
 use yii\db\Query;
 use yii\web\Controller;
@@ -197,6 +198,43 @@ class EquipoController extends Controller
     }
 
 
+    public function actionAddEmpleado(){
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $equipo   = Yii::$app->request->post('equipo');
+        $empleado = Yii::$app->request->post('empleado');
+
+        $equipoPersonal              = new EquipoPersonal();
+        $equipoPersonal->estado      = 'A';
+        $equipoPersonal->id_empleado = $empleado;
+        $equipoPersonal->id_equipo   = $equipo;
+
+
+        try {
+            echo json_encode(array("success"=>$equipoPersonal->save()));
+        }
+        catch (IntegrityException $e){echo json_encode(array("success"=>false));}
+        catch (Exception $e){echo json_encode(array("success"=>false));}
+    }
+
+
+    public function actionAddAutomoto(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $equipo   = Yii::$app->request->post('equipo');
+        $automotor = Yii::$app->request->post('automotor');
+
+        $equipoAutomotor              = new EquipoAutomotor();
+        $equipoAutomotor->id_automor  = $automotor;
+        $equipoAutomotor->id_equipo   = $equipo;
+        try {
+            echo json_encode(array("success"=>$equipoAutomotor->save()));
+        }
+        catch (IntegrityException $e){echo json_encode(array("success"=>"Ya fue agregado"));}
+        catch (Exception $e){echo json_encode(array("success"=>"Error"));}
+    }
+
+
     public function actionDeleteEmpleado(){
         $equipo = Yii::$app->request->post('equipo');
         $empleado =Yii::$app->request->post('empleado');
@@ -208,6 +246,10 @@ class EquipoController extends Controller
             echo json_encode(array('success'=>false));
         }
     }
+
+
+
+
 
     public function actionDeleteAutomotor(){
         $equipo = Yii::$app->request->post('equipo');

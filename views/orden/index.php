@@ -54,7 +54,7 @@ $this->registerJs("
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-    <table class="table" id="ordenes-datarow" style="width: 100%">
+    <table class="table table-striped table-bordered dataTable" id="ordenes-datarow" style="width: 100%">
         <thead>
         <tr>
             <td width="10%">Código</td>
