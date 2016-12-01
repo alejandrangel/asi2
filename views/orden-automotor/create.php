@@ -8,8 +8,6 @@ use yii\helpers\Html;
 ?>
 <div class="orden-automotor-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
         'orden' => @$orden,
