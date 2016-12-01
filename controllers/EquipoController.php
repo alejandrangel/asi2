@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\Empleado;
 use app\models\EquipoAutomotor;
 use app\models\EquipoPersonal;
 use Yii;
@@ -15,6 +14,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 /**
  * EquipoController implements the CRUD actions for Equipo model.
@@ -30,7 +30,7 @@ class EquipoController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST']
                 ],
             ],
         ];
@@ -81,23 +81,21 @@ class EquipoController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Equipo model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_equipo]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+    public function actionSave()
+    {
+        $model = new Equipo();
+        $model->load(Yii::$app->request->post());
+
+        try{
+            $new = $this->findModel(Yii::$app->request->post('Equipo')['id_equipo']);
+            $new->descripcion = Yii::$app->request->post('Equipo')['descripcion'];
+            $model = $new;
+        }catch (NotFoundHttpException $e){
+
         }
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        echo json_encode(array('success'=>$model->save()));
     }
 
     /**
@@ -250,8 +248,6 @@ class EquipoController extends Controller
 
 
 
-
-
     public function actionDeleteAutomotor(){
         $equipo = Yii::$app->request->post('equipo');
         $automotor = Yii::$app->request->post('automotor');
@@ -263,6 +259,16 @@ class EquipoController extends Controller
             echo json_encode(array('success'=>false));
         }
 
+    }
+
+
+
+    public function actionEquipoValidation() {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = new Equipo();
+        $model->load(\Yii::$app->request->post());
+
+        return ActiveForm::validate($model);
     }
 
 }

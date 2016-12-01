@@ -30,10 +30,7 @@ class OrdenAutomotorController extends Controller
             $params = \Yii::$app->request->post();
         }
         $orden  = @$params['orden'];
-
         \Yii::$app->response->format = Response::FORMAT_JSON;
-
-
 
         $query = new Query;
         $query->select([

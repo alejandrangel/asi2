@@ -14,8 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Nuevo Equipo', ['create'], ['class' => 'btn btn-success']) ?>
 
+        <button type="button" id="dlg-nuevo" class="btn btn-success"  >Nuevo Equipo</button>
     </p>
     <div class="row">
         <div class="col-md-12">
@@ -42,7 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
                   \"bSortable\": false,
                   \"render\": function ( data, type, full, meta ) {
                     var pk = data.id_equipo;
-                    var links = '<a class=\"\" href=".\yii\helpers\Url::base()."/equipo/view?id=' + full['id_equipo'] + '><span class=\"glyphicon glyphicon-eye-open\"></span> </a><a class=\"edit-action-equipo\" pk='+pk+' href=\"#\"><span class=\"glyphicon glyphicon-pencil\"></span> </a><a pk='+pk+' class=\"delete-action-equipo\" href=\"#\"><span class=\" glyphicon glyphicon-trash\"></span> </a>';
+                    var ds = data.descripcion;
+                    var links = '<a class=\"\" href=".\yii\helpers\Url::base()."/equipo/view?id=' + full['id_equipo'] + '><span class=\"glyphicon glyphicon-eye-open\"></span> </a><a class=\"edit-action-equipo\" pk='+pk+' data=\"'+ds+'\" ><span class=\"glyphicon glyphicon-pencil\"></span> </a><a pk='+pk+' class=\"delete-action-equipo\" href=\"#\"><span class=\" glyphicon glyphicon-trash\"></span> </a>';
                     return  links;
                   }
                 }]
@@ -74,15 +75,31 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="">Editar Equipo</h4>
+                    <h4 class="modal-title" id="">Equipo</h4>
                 </div>
+                <?php $form = \yii\widgets\ActiveForm::begin(
+                    [
+                        'action'=>'@web/equipo/save',
+                        'id'=> 'editForm',
+                        'enableAjaxValidation' => true,
+                        'validationUrl' => \yii\helpers\Url::to('@web/equipo/equipo-validation')
+
+                    ]
+                );
+                ?>
                 <div class="modal-body">
-                    <span id="err-p" style="color: red; font-size: 0.9em"></span>
+                    <span id="err-e" style="color: red; font-size: 0.9em"></span>
+
+                        <?php  $equipoEdit = new \app\models\Equipo(); ?>
+                        <?= $form->field($equipoEdit, 'descripcion')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($equipoEdit, 'id_equipo')->hiddenInput()->label(false); ?>
 
                 </div>
                 <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" >Guardar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 </div>
+                <?php \yii\widgets\ActiveForm::end(); ?>
             </div>
         </div>
     </div>
@@ -91,12 +108,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 $this->registerJsFile('@web/js/bootstrap.min.js', ['position'=>\yii\web\View::POS_END]);
+
 $this->registerJs("
-$(document).on('click', '.edit-action-equipo', function() {
-    $('#err').html('');
-    var pk = $(this).attr('pk'); 
-     
-});
+
 
 
 $(document).on('click', '.delete-action-equipo', function() {
@@ -116,7 +130,43 @@ $(document).on('click', '.delete-action-equipo', function() {
             }
        });
     }
-});", \yii\web\View::POS_END);
+});
+
+$(document).on('click', '.edit-action-equipo', function() {
+    $('#err').html('');
+    var pk = $(this).attr('pk');
+    var ds = $(this).attr('data');
+    
+    $('#equipo-id_equipo').val(pk);
+    $('#equipo-descripcion').val(ds);
+    
+    $('#dlg-edit-equipo').modal('show');
+});
+
+
+$(document).on('beforeSubmit','#editForm',function(){
+            $('#err-e').html('');
+            var form = $(this);                                 
+            if(form.find('.has-error').length) {
+                return false;
+            }  
+            $.post('".\yii\helpers\Url::to('@web/equipo/save')."',form.serialize()).done(function(data){
+                  if(data.success){  
+                        eDtb.ajax.reload();
+                        $('#dlg-edit-equipo').modal('hide');
+                        form.find('input[type = text], textarea').val('');
+                   }else{
+                        $('#err-e').html(data.error);
+                   }
+            });            
+            return false;
+});
+$('#dlg-nuevo').click(function(){
+$('#equipo-id_equipo').val('');
+    $('#equipo-descripcion').val('');
+    $('#dlg-edit-equipo').modal('show');
+});
+", \yii\web\View::POS_END);
 
         
 ?>
