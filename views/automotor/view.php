@@ -21,8 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_automotor], ['class' => 'btn btn-primary']) ?>    
-		<?= \yii\helpers\Html::a('Volver', Yii::$app->request->referrer,['class'=>'btn btn-success']) ?>		
+        <?= Html::a('Actualizar', ['update', 'id' => $model->id_automotor], ['class' => 'btn btn-primary']) ?>    
+		<?= \yii\helpers\Html::a('Volver', Yii::$app->request->referrer,['class'=>'btn btn-success']) ?>
+		<?= Html::a('Reporte', ['pdf2', 'id' => $model->id_automotor], ['class' => 'btn btn-info']) ?>
 
     </p>
 

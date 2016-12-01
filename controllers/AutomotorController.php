@@ -196,6 +196,102 @@ class AutomotorController extends Controller
         );
         echo json_encode($data,JSON_NUMERIC_CHECK);
     }
+	
+	
+	public function actionPdf2($id){
+	
+	
+	   $params = \Yii::$app->request->get();
+        if(\Yii::$app->request->isPost){
+            $params = \Yii::$app->request->post();
+        }
+
+		$query = new Query;
+		$query->select([
+            'automotor.id_automotor',
+            'automotor.placa',
+            'orden_automotor.km_inicial',
+            'orden_automotor.km_final',
+            'orden_automotor.codigo_vale',
+            'orden_automotor.monto',
+            'orden_trabajo.id_orden_trabajo',
+            'orden_trabajo.fecha_inicio',
+            'orden_trabajo.fecha_final'
+        ])->from('automotor')
+          ->innerJoin('orden_automotor', 'orden_automotor.id_automotor = automotor.id_automotor')
+          ->innerJoin('orden_trabajo', 'orden_automotor.id_orden = orden_trabajo.id_orden_trabajo')
+          ->where(['automotor.id_automotor'=>$id]);
+				
+        //var_dump($query->all());
+        //$data = array("data"=>
+           // $query->all()
+        //);
+		
+		$command = $query->createCommand();
+		// Ejecutar el comando:
+		$data = $command->queryAll();
+
+	
+        $style = ".box{border-bottom:1px solid gray;border-top:1px solid gray;}";
+        $style .= ".odd{background:#FEFEED}";
+        $style .= ".edd{background:#FAFFFF}";
+
+        $content = '<table width="100%" class="content" cellpadding="0" cellspacing="0">
+                        <thead>
+                                <tr>
+                                    <td class="box">No Automotor &nbsp;</td>
+									<td class="box">Placa &nbsp;</td>
+									<td class="box">KM Inicial &nbsp;</td>
+									<td class="box">KM Final &nbsp;</td>
+									<td class="box">Codigo de Vale &nbsp;</td>
+									<td class="box">Monto Vale &nbsp;</td>
+									<td class="box">Recorrido Total &nbsp;</td>
+									<td class="box">Orden de Trabajo &nbsp;</td>
+									<td class="box">Fecha Inicio &nbsp;</td>
+									<td class="box">Fecha Final &nbsp;</td>
+                                 </tr>
+                        </thead>
+                        <tbody>';
+		$totalKM=0;
+      /*  foreach ($data as $fila){
+			
+            $content.='<tr class="'.(($fila->id_automotor%2==0)?'odd':'edd').'"><td>'.$fila->id_automotor.'</td>';
+			$content.='<td>'.$fila->placa.'</td>';
+			$content.='<td>'.$fila->km_inicial.'</td>';
+			$content.='<td>'.$fila->km_final.'</td>';
+			$content.='<td>'.$fila->codigo_vale.'</td>';
+			$content.='<td>'.$fila->monto.'</td>';
+			$content.='<td>'.$totalKM.'</td>';
+			$content.='<td>'.$fila->id_orden_trabajo.'</td>';
+			$content.='<td>'.$fila->fecha_inicio.'</td>';
+			$content.='<td>'.$fila->fecha_final.'</td></tr>';
+        }*/
+		
+		 foreach ($data as $fila){
+		$totalKM =$fila['km_final'] - $fila['km_inicial'];
+		$content.='<tr class="'.(($fila['id_automotor']%2==0)?'odd':'edd').'"><td>'.$fila['id_automotor'].'</td>';
+		$content.='<td>'.$fila['placa'].'</td>';
+		$content.='<td>'.$fila['km_inicial'].'</td>';
+		$content.='<td>'.$fila['km_final'].'</td>';
+		$content.='<td>'.$fila['codigo_vale'].'</td>';
+		$content.='<td>'.$fila['monto'].'</td>';
+		$content.='<td>'.$totalKM.'</td>';
+		$content.='<td>'.$fila['id_orden_trabajo'].'</td>';
+		$content.='<td>'.$fila['fecha_inicio'].'</td>';
+		$content.='<td>'.$fila['fecha_final'].'</td>';
+        }
+     
+			
+        $content .= '</tbody></table>';
+
+
+
+
+
+        Report::PDF($style,'Reporte de Automotores',$content);
+
+
+    }
 
 
 }
