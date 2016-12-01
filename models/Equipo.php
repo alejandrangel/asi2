@@ -35,6 +35,7 @@ class Equipo extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'required'],
+            [['descripcion'], 'unique'],
             [['estado'], 'string'],
             [['fecha_creacion'], 'safe'],
             [['descripcion'], 'string', 'max' => 150],
