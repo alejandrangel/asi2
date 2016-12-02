@@ -29,7 +29,7 @@ class Herramienta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_herramienta', 'descripcion'], 'required'],
+            [[ 'descripcion'], 'required'],
             [['id_herramienta'], 'integer'],
             [['descripcion'], 'unique'],
             [['descripcion'], 'string', 'max' => 200],
