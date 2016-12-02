@@ -32,6 +32,7 @@ class Ruta extends \yii\db\ActiveRecord
         return [
             [['id_ruta', 'nombre'], 'required'],
             [['id_ruta'], 'integer'],
+            [['nombre'], 'unique'],
             [['nombre'], 'string', 'max' => 45],
         ];
     }
