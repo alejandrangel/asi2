@@ -20,7 +20,7 @@ use app\models\CatalogoTabla;
     <?= $form->field($model, 'id_tabla')->dropDownList(ArrayHelper::map(CatalogoTabla::find()->all(), 'id_catalogo_tabla', 'nombre'))?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		<?= \yii\helpers\Html::a('Volver', Yii::$app->request->referrer,['class'=>'btn btn-success']) ?>
     </div>
 
