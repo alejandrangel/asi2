@@ -12,8 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_combustible')->textInput() ?>
-
     <?= $form->field($model, 'combustible')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
