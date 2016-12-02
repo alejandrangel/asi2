@@ -31,6 +31,7 @@ class Herramienta extends \yii\db\ActiveRecord
         return [
             [['id_herramienta', 'descripcion'], 'required'],
             [['id_herramienta'], 'integer'],
+            [['descripcion'], 'unique'],
             [['descripcion'], 'string', 'max' => 200],
             [['activo'], 'string', 'max' => 1],
         ];
