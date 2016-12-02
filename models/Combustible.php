@@ -26,7 +26,7 @@ class Combustible extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_combustible'], 'required'],
+            [['combustible'], 'required'],
             [['id_combustible'], 'integer'],
             [['combustible'], 'string', 'max' => 45],
         ];
