@@ -15,7 +15,7 @@ use app\models\Cargo;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_empleado')->textInput() ?>
+
 
     <?= $form->field($model, 'nombres')->textInput(['maxlength' => true]) ?>
 
@@ -36,7 +36,7 @@ use app\models\Cargo;
     ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

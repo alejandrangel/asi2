@@ -32,8 +32,8 @@ class Empleado extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_empleado', 'nombres', 'apellidos', 'fnacimiento', 'cargo'], 'required'],
-            [['id_empleado', 'cargo'], 'integer'],
+            [['nombres', 'apellidos', 'fnacimiento', 'cargo'], 'required'],
+            [['cargo'], 'integer'],
             [['fnacimiento'], 'safe'],
             [['nombres', 'apellidos'], 'string', 'max' => 100],
             [['direccion'], 'string', 'max' => 500],
@@ -48,7 +48,6 @@ class Empleado extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_empleado' => 'Id Empleado',
             'nombres' => 'Nombres',
             'apellidos' => 'Apellidos',
             'direccion' => 'Direccion',
